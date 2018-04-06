@@ -3,7 +3,7 @@ class Users::OmniauthCallbacksController < ApplicationController
         @user = User.first
 
         if @user.persisted?
-            put "In facebook callback!!!"
+            puts "In facebook callback!!!"
             sign_in @user
         end
     end
