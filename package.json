@@ -2,10 +2,24 @@
   "name": "tasklist",
   "private": true,
   "dependencies": {
+    "@angular/common": "^5.2.9",
+    "@angular/compiler": "^5.2.9",
+    "@angular/core": "^5.2.9",
+    "@angular/forms": "^5.2.9",
+    "@angular/http": "^5.2.9",
+    "@angular/platform-browser": "^5.2.9",
+    "@angular/platform-browser-dynamic": "^5.2.9",
+    "@angular/router": "^5.2.9",
     "@rails/webpacker": "3.4",
-    "bootstrap": "4"
+    "bootstrap": "4",
+    "core-js": "^2.5.4",
+    "rxjs": "^5.5.8",
+    "ts-loader": "3.5.0",
+    "typescript": "^2.8.1",
+    "zone.js": "^0.8.26"
   },
   "devDependencies": {
+    "html-loader": "^0.5.5",
     "webpack-dev-server": "2.11.2"
   }
 }

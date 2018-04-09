@@ -35,7 +35,8 @@ gem 'jbuilder', '~> 2.5'
 gem 'webpacker'
 
 # Use to manage rails and webpack dev server process within single console window
-gem 'foreman'
+# gem 'foreman'
+gem 'foreman', path: '/Users/bmac/Projects/shine/foreman'
 
 # Use for user authentication
 gem 'devise'
@@ -44,10 +45,14 @@ gem 'omniauth-facebook'
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]
+  gem 'pry'
   
   # Use for Ruby / Rails testing
   gem 'rspec-rails'
   gem 'rails-controller-testing'
+
+  # Use for creating test mocks
+  gem "factory_bot_rails", "~> 4.0"
 end
 
 group :development do

@@ -1,10 +1,10 @@
-class Users::OmniauthCallbacksController < ApplicationController
+class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     def facebook
-        @user = User.first
-
+        @user = User.from_omniauth(request.env["omniauth.auth"]) if request.env["omniauth.auth"].present?
+        require 'pry'; binding.pry
         if @user.persisted?
-            puts "In facebook callback!!!"
-            sign_in @user
+            require 'pry'; binding.pry
+            sign_in_and_redirect @user
         end
     end
 
