@@ -5,3 +5,13 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+
+10.times do |num|
+    colors = [ "red", "blue", "green", "purple", "yellow", "gray", "orange", "brown" ]
+
+    Category.create(
+        name:           "Category ##{num}",
+        description:    "Description for category ##{num}",
+        color:          colors.sample
+    )
+end

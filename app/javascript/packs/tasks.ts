@@ -4,12 +4,15 @@ import { BrowserModule } from '@angular/platform-browser';
 import { Component, NgModule } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 
-// var routing = [
-//     {
-//         path: "",
-//         component: AppComponent
-//     }
-// ]
+import { ProfileComponent } from '../ProfileComponent/index';
+import { TaskListComponent } from '../TaskListComponent/index';
+
+var routing = [
+    {
+        path: "",
+        component: TaskListComponent
+    }
+]
 
 @Component({
   selector: 'tasks',
@@ -19,11 +22,13 @@ class AppComponent { }
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TaskListComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot([{path: "", component: AppComponent}])
+    RouterModule.forRoot(routing)
   ],
   providers: [],
   bootstrap: [AppComponent]
