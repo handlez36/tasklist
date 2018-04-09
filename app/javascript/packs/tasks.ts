@@ -3,6 +3,7 @@ import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { BrowserModule } from '@angular/platform-browser';
 import { Component, NgModule } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
+import { HttpModule } from '@angular/http';
 
 import { ProfileComponent } from '../ProfileComponent/index';
 import { TaskListComponent } from '../TaskListComponent/index';
@@ -28,6 +29,7 @@ class AppComponent { }
   ],
   imports: [
     BrowserModule,
+    HttpModule,
     RouterModule.forRoot(routing)
   ],
   providers: [],

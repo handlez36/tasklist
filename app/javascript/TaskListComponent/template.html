@@ -1,1 +1,9 @@
 <h3>Task List from Template</h3>
+
+<div *ngIf="categories">
+    <div *ngFor="let category of categories">
+        Category: {{ category.name }}
+        Description: {{ category.description }}
+        Color: {{ category.color }}
+    </div>
+</div>
