@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180408205748) do
+ActiveRecord::Schema.define(version: 20180605175250) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -21,6 +21,21 @@ ActiveRecord::Schema.define(version: 20180408205748) do
     t.string "color"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "mortgages", force: :cascade do |t|
+    t.decimal "purchase_price", precision: 10, scale: 2
+    t.decimal "down_payment", precision: 10, scale: 2
+    t.integer "mortgage_term"
+    t.decimal "interest_rate", precision: 10, scale: 2
+    t.decimal "property_tax", precision: 10, scale: 2, default: "0.0"
+    t.decimal "property_insurance", precision: 10, scale: 2, default: "0.0"
+    t.decimal "pmi", precision: 3, scale: 2
+    t.date "first_payment_date"
+    t.string "notes"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.decimal "monthly_payment", precision: 10, scale: 2
   end
 
   create_table "users", force: :cascade do |t|

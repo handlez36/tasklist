@@ -42,6 +42,9 @@ gem 'foreman', path: '/Users/bmac/Projects/shine/foreman'
 gem 'devise'
 gem 'omniauth-facebook'
 
+# Use for handling currency
+gem 'money-rails', '~>1'
+
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
   gem 'byebug', platforms: [:mri, :mingw, :x64_mingw]

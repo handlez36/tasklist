@@ -1,9 +1,11 @@
+import { Form, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import "../hello_angular/polyfills"
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { BrowserModule } from '@angular/platform-browser';
 import { Component, NgModule } from '@angular/core';
 import { RouterModule, Router } from '@angular/router';
 import { HttpModule } from '@angular/http';
+import * as amo from 'amortization';
 
 import { ProfileComponent } from '../ProfileComponent/index';
 import { TaskListComponent } from '../TaskListComponent/index';
@@ -25,11 +27,12 @@ class AppComponent { }
   declarations: [
     AppComponent,
     TaskListComponent,
-    ProfileComponent
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
     HttpModule,
+    ReactiveFormsModule,
     RouterModule.forRoot(routing)
   ],
   providers: [],
@@ -37,4 +40,4 @@ class AppComponent { }
 })
 export class AppModule { }
 
-platformBrowserDynamic().bootstrapModule(AppModule);
+platformBrowserDynamic().bootstrapModule(AppModule); 
