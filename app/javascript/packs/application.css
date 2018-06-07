@@ -15,13 +15,19 @@
     /* text-align: center; */
 }
 
-#mortgage-section {
+#mortgage-section, #property-section {
     border: 1px solid black;
     border-radius: 20px;
     padding: 10px;
     max-width: 475px;
     font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
     font-size: 11px;
+}
+
+#property-section {
+    margin-right: 150px;
+    width: 475px;
+    max-width: 475px;
 }
 
 .small-input {

@@ -1,3 +1,8 @@
+import { CommonUtilityService } from './../CommonUtilityService/commonUtility';
+import { CommonDataService } from './../CommonDataService/commonData';
+import { PropertyCostFormComponent } from './../ProjectCostComponent/index';
+import { QuickPropertyInfoFormComponent } from './../PropertyInfoForms/QuickPropertyInfoForm/index';
+import { MortgageFormComponent } from './../MortgageFormComponent/index';
 import { Form, FormBuilder, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import "../hello_angular/polyfills"
 import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
@@ -12,8 +17,12 @@ import { TaskListComponent } from '../TaskListComponent/index';
 
 var routing = [
     {
-        path: "",
-        component: TaskListComponent
+      path: "",
+      component: TaskListComponent
+    },
+    {
+      path: "test",
+      component: MortgageFormComponent
     }
 ]
 
@@ -26,8 +35,11 @@ class AppComponent { }
 @NgModule({
   declarations: [
     AppComponent,
+    MortgageFormComponent,
     TaskListComponent,
     ProfileComponent,
+    QuickPropertyInfoFormComponent,
+    PropertyCostFormComponent
   ],
   imports: [
     BrowserModule,
@@ -35,7 +47,7 @@ class AppComponent { }
     ReactiveFormsModule,
     RouterModule.forRoot(routing)
   ],
-  providers: [],
+  providers: [CommonDataService, CommonUtilityService],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

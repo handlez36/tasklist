@@ -1,69 +1,12 @@
-<h3>Task List from Template</h3>
-
-<!-- <div *ngIf="categories">
-    <div *ngFor="let category of categories">
-        Category: {{ category.name }}
-        Description: {{ category.description }}
-        Color: {{ category.color }}
-    </div>
-</div> -->
-
-<article class="panel panel-default" class="pull-right" id="mortgage-section">
-    <header class="panel-heading">
-        <h2>Mortgage Numbers</h2>
-    </header>
-    <section class="panel-body">
-        <div [formGroup]="property_inputs">
-            <div style="float:left;margin-right:20px;">
-                <label for="asking_price">Asking Price (from seller)</label><br />
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">$</span>
-                    </div>
-                    <input class="form-control" formControlName="asking_price" placeholder="Asking Price" (blur)="updateInputFormat()">
-                </div>
-            </div>
-            <div style="float:left">
-                <label for="purchase_price">Purchase Price (from buyer)</label><br />
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">$</span>
-                    </div>
-                    <input class="form-control" formControlName="purchase_price" placeholder="Purchase Price" (blur)="updateInputFormat()">
-                </div>
-            </div>
-            <br style="clear:both" /><br />
-            <div style="float:left;margin-right:20px">
-                <label for="down_payment">Down Payment</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">$</span>
-                    </div>
-                    <input class="form-control" formControlName="down_payment" placeholder="Down Payment" (blur)="updateInputFormat()">
-                </div>
-            </div>
-            <div style="float:left;margin-right:20px">
-                <label for="mortgage_term">Term (months)</label>
-                <input class="form-control small-input" formControlName="mortgage_term" placeholder="Term (in month)" (blur)="updateInputFormat()">
-            </div>
-            <div style="float:left">
-                <label for="interest_rate">Interest Rate</label>
-                <div class="input-group small-input">
-                    <input class="form-control" style="max-width:100px" formControlName="interest_rate" placeholder="Interest Rate" (blur)="updateInputFormat()">
-                    <div class="input-group-append">
-                        <span class="input-group-text">%</span>
-                    </div>
-                </div>
-            </div>
-            <br style="clear:both" />
-        </div>
-    </section>
-    <section class="panel-body">
-        <div style="margin-top: 20px">
-            Monthly mortgage payment: {{ monthly_payment }} <br />
-            Length of mortgage      : {{ formControls().mortgage_term * 12 }} months <br />
-            Total interest          : {{ total_interest }}
-        </div>
-    </section>
-
-</article>
+<h3>Real Estate Assessment Calculator</h3>
+<br /><br />
+<div class="row">
+    <quick-prop-form></quick-prop-form>
+    <mortgage-form
+        (mortgageDetails)="updateMortgageDetails($event)">
+    </mortgage-form>
+</div>
+<br />
+<div class="row">
+    <prop-cost-form></prop-cost-form>
+</div>

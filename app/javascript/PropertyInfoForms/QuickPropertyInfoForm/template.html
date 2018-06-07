@@ -1,0 +1,44 @@
+<article class="panel panel-default col-md-6" class="pull-left" id="property-section">
+    <header class="panel-heading">
+        <h2>Property Information</h2>
+    </header>
+    <section class="panel-body">
+        <div [formGroup]="property_inputs">
+            <div>
+                <label for="asking_price">Purchase Price (from seller)</label><br />
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input 
+                        class="form-control"
+                        formControlName="asking_price"
+                        placeholder="Asking Price"
+                        value="{{ mortgageDetails.price }}"
+                        (blur)="updateInputFormat()">
+                </div>
+            </div>
+            <br />
+            <div>
+                <label for="monthly_rent">Estimated Monthly Rent</label><br />
+                <div class="input-group">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text">$</span>
+                    </div>
+                    <input class="form-control" formControlName="monthly_rent" placeholder="Monthly Rent">
+                </div>
+            </div>
+            <br />
+            <div>
+                <label for="property_size">Property Size</label>
+                <div class="input-group">
+                    <input class="form-control" formControlName="property_size" placeholder="Lot Size (sq ft)">
+                    <div class="input-group-append">
+                        <span class="input-group-text">sq ft</span>
+                    </div>
+                </div>
+            </div>
+            <br style="clear:both" />
+        </div>
+    </section>
+</article>
