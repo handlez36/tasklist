@@ -11,4 +11,15 @@ export class CommonUtilityService {
         return accounting.formatMoney(number).replace("$","");
     }
 
+    getFloatFor(details, key) {
+        
+        if(details[key]) {
+            return typeof details[key] == "string" ?
+                parseFloat( details[key].replace(",","") ) :
+                details[key]
+        } else {
+            return 0;
+        }
+    }
+
 }

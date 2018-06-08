@@ -77,13 +77,10 @@ export class MortgageFormComponent implements OnInit {
             parseFloat(this.price.replace(",","")) :
             this.price
 
-        if (tempPrice > 0) {
-            
+        if (tempPrice > 0) {            
             let amortized_schedule = amortization.amortizationSchedule( tempPrice - this.dp, this.term, this.rate );
             this.monthly_payment = this.utilities.formatCurrencyToString(amortized_schedule[0].payment);
             this.total_interest = this.utilities.formatCurrencyToString(amortized_schedule.reduce( (total, amt) => total + amt.interestPayment, 0.0 ));
-
-            console.log("Monthly payment: ", this.monthly_payment);
         }
 
         if(updateCommonData) {

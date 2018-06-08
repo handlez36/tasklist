@@ -5,37 +5,63 @@
     <section class="panel-body">
         <div [formGroup]="property_inputs">
             <div class="row">
-                <div class="col-md-4">Purchase Price: {{ mortgageDetails.price || 0.00 }}</div>
-                <div class="input-group col-md-4">
+                <div class="col-md-3">Purchase Price: ${{ mortgageDetails.price || 0.00 }}</div>
+                <div class="input-group col-md-5">
                     <div>Closing Costs:</div>
-                    <input class="form-control" value="5000">
-                    <label for="use_closing_cost_perc_control">Use percentage?</label><br />
+                    <div class="input-group" style="height:30px">
+                        <div class="input-group-prepend">
+                            <span class="input-group-text">$</span>
+                        </div>
+                        <input 
+                            formControlName="closing_cost"
+                            class="form-control"
+                            style="width: 100px"
+                            value="5000"
+                            (blur)="updateInputFormat()">
+                    </div>
+                </div>
+                <div class="input-group col-md-4" style="height:20px">
+                    <label for="use_closing_cost_perc_control">Use percentage?</label>
                     <div class="input-group">
-                        <select formControlName="use_closing_cost_perc_control">
+                        <select formControlName="use_closing_cost_perc_control" (change)="toggle_use_percentage('closingCost')">
                             <option value="Yes">Yes</option>
                             <option [selected]="true" value="No">No</option>
                         </select>
-                        <input *ngIf="use_closing_cost_perc" class="form-control" style="height:20px;margin-left:5px;max-width:40px!important;" />
+                        <input 
+                            *ngIf="use_closing_cost_perc" 
+                            formControlName="closing_cost_perc"
+                            class="form-control"
+                            style="height:20px;margin-left:5px;max-width:40px!important;"
+                            value="{{ mortgageDetails.closing_costs }}"
+                            (blur)="updateClosingCosts()" />
                     </div>
                 </div>
             </div>
+            <br /><br />
             <div>
                 <div>
                     Pre-rent holding period (in months)
                     <div class="row">
-                        <div class="col-md-4">
+                        <div class="col-md-4" style="height:20px">
                             <label for="asking_price">Number of months</label><br />
-                            <input class="form-control" formControlName="pre_rent_holding">
+                            <input 
+                                class="form-control" 
+                                formControlName="pre_rent_holding" 
+                                style="height:20px;width:50px"
+                                (blur)="updatePreRentHoldingCosts()">
                         </div>
                         <div class="input-group col-md-4">
                             Pre-rent holding costs: <br />
-                            $ 2000.00
+                            ${{ pre_rent_holding_costs }}
                         </div>
                     </div>
                 </div>
                 <br style="clear:both" />
+                <br /><br />
                 <div>
-                    Estimated Repairs:
+                    <div class="row">
+                        Estimated Repairs: ${{ estimated_repairs }}
+                    </div>
                     <div class="row">
                         <div class="col-md-4">Paint, Carpet, etc...:</div>
                         <div class="col-md-4">
@@ -43,12 +69,16 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">$</span>
                                 </div>
-                                <input class="form-control" formControlName="repair_paint_carpet" placeholder="0.00">
+                                <input 
+                                    class="form-control" 
+                                    formControlName="repair_paint_carpet" 
+                                    placeholder="0.00"
+                                    (blur)="updateEstimatedRepairCost()">
                             </div>        
                         </div>
                         <div class="col-md-4">
                             <label for="use_repair_perc">Use percentage?</label><br />
-                            <div class="input-group">
+                            <div class="input-group" style="margin-top:-10px">
                                 <select formControlName="use_repair_perc_control" (change)="toggle_use_percentage('repair')">
                                     <option value="Yes">Yes</option>
                                     <option [selected]="true" value="No">No</option>
@@ -56,7 +86,7 @@
                                 <input *ngIf="use_repair_perc" class="form-control" style="height:20px;margin-left:5px;max-width:40px!important;" />
                             </div>                        
                         </div>
-                    </div>
+                    </div><br />
                     <div class="row">
                         <div class="col-md-4">Foundation</div>
                         <div class="col-md-4">
@@ -64,10 +94,14 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">$</span>
                                 </div>
-                                <input class="form-control" formControlName="repair_foundation" placeholder="0.00">
+                                <input 
+                                    class="form-control" 
+                                    formControlName="repair_foundation" 
+                                    placeholder="0.00"
+                                    (blur)="updateEstimatedRepairCost()">
                             </div>        
                         </div>
-                    </div>
+                    </div><br />
                     <div class="row">
                         <div class="col-md-4">Roof</div>
                         <div class="col-md-4">
@@ -75,10 +109,14 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">$</span>
                                 </div>
-                                <input class="form-control" formControlName="repair_roof" placeholder="0.00">
+                                <input 
+                                    class="form-control" 
+                                    formControlName="repair_roof" 
+                                    placeholder="0.00"
+                                    (blur)="updateEstimatedRepairCost()">
                             </div>        
                         </div>
-                    </div>
+                    </div><br />
                     <div class="row">
                         <div class="col-md-4">A/C:</div>
                         <div class="col-md-4">
@@ -86,7 +124,11 @@
                                 <div class="input-group-prepend">
                                     <span class="input-group-text">$</span>
                                 </div>
-                                <input class="form-control" formControlName="repair_ac" placeholder="0.00">
+                                <input 
+                                    class="form-control" 
+                                    formControlName="repair_ac" 
+                                    placeholder="0.00"
+                                    (blur)="updateEstimatedRepairCost()">
                             </div>        
                         </div>
                     </div>

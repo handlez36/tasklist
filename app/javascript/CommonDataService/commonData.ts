@@ -19,16 +19,22 @@ export class CommonDataService {
         return Observable.of(this.numbers);
     }
 
-    updatePropertyNumbers(updatedNumbers) {
-        console.log("CommonDataService#updatePropertyNumbers");
+    updatePropertyNumbers_old(updatedNumbers) {
+        console.log("CommonDataService#updatePropertyNumbers_old");
 
         Object
             .keys(updatedNumbers)
             .forEach( k => {
-                this.numbers[k] = updatedNumbers[k]
+                this.numbers[k] = updatedNumbers[k];
             });
+        
+        this.numbers.next(this.numbers);
+    }
 
-        // debugger;
+    updatePropertyNumbers(updatedField) {
+        console.log("CommonDataService#updatePropertyNumbers");
+
+        this.numbers[updatedField.key] = updatedField.value;
         this.numbers.next(this.numbers);
     }
 

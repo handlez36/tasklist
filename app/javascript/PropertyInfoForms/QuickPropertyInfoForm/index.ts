@@ -62,7 +62,7 @@ export class QuickPropertyInfoFormComponent implements OnInit {
 
         this.commonData.updatePropertyNumbers({
             price:              this.price,
-            monnthly_rent:      this.rent,
+            monthly_rent:      this.rent,
             property_size:      this.size
         });
     }

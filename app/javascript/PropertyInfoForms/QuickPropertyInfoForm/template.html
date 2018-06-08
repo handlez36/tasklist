@@ -25,7 +25,11 @@
                     <div class="input-group-prepend">
                         <span class="input-group-text">$</span>
                     </div>
-                    <input class="form-control" formControlName="monthly_rent" placeholder="Monthly Rent">
+                    <input 
+                        class="form-control" 
+                        formControlName="monthly_rent"
+                        placeholder="Monthly Rent"
+                        (blur)="updateInputFormat()">
                 </div>
             </div>
             <br />

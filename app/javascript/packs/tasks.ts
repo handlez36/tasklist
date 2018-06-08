@@ -1,3 +1,5 @@
+import { TextFieldComponent } from './../TextFieldComponent/index';
+import { OperatingExpenseFormComponent } from './../OperatingExpenseFormComponent/index';
 import { CommonUtilityService } from './../CommonUtilityService/commonUtility';
 import { CommonDataService } from './../CommonDataService/commonData';
 import { PropertyCostFormComponent } from './../ProjectCostComponent/index';
@@ -39,7 +41,9 @@ class AppComponent { }
     TaskListComponent,
     ProfileComponent,
     QuickPropertyInfoFormComponent,
-    PropertyCostFormComponent
+    PropertyCostFormComponent,
+    OperatingExpenseFormComponent,
+    TextFieldComponent
   ],
   imports: [
     BrowserModule,
