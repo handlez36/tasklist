@@ -5,44 +5,46 @@
     <section class="panel-body">
         <div [formGroup]="property_inputs">
             <div style="float:left;margin-right:20px;">
-                <label for="asking_price">Asking Price (from seller)</label><br />
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">$</span>
-                    </div>
-                    <input class="form-control" formControlName="asking_price" placeholder="Asking Price" (blur)="updateInputFormat()">
-                </div>
+                <text-field
+                    [formGroup]="property_inputs"
+                    [controlName]="'asking_price'" 
+                    [controlLabel]="'Asking Price (from seller)'"
+                    [icon]="'$'" [disable]=false [placeholder]=0 [val]="ask">
+                </text-field>
             </div>
             <div style="float:left">
-                <label for="purchase_price">Purchase Price (from buyer)</label><br />
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">$</span>
-                    </div>
-                    <input class="form-control" formControlName="purchase_price" placeholder="Purchase Price" (blur)="updateInputFormat()" value="{{ price }}">
-                </div>
+                <text-field
+                    [formGroup]="property_inputs"
+                    [controlName]="'price'" 
+                    [controlLabel]="'Purchase Price (from buyer)'"
+                    [icon]="'$'" [disable]=false [placeholder]=0 [val]="price">
+                </text-field>
             </div>
             <br style="clear:both" /><br />
-            <div style="float:left;margin-right:20px">
-                <label for="down_payment">Down Payment</label>
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">$</span>
-                    </div>
-                    <input class="form-control" formControlName="down_payment" placeholder="Down Payment" (blur)="updateInputFormat()">
+            <div class="row">
+                <div class="col-md-4">
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'down_payment'" 
+                        [controlLabel]="'Down Payment'"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
+                    </text-field>
                 </div>
-            </div>
-            <div style="float:left;margin-right:20px">
-                <label for="mortgage_term">Term (months)</label>
-                <input class="form-control small-input" formControlName="mortgage_term" placeholder="Term (in month)" (blur)="updateInputFormat()">
-            </div>
-            <div style="float:left">
-                <label for="interest_rate">Interest Rate</label>
-                <div class="input-group small-input">
-                    <input class="form-control" style="max-width:100px" formControlName="interest_rate" placeholder="Interest Rate" (blur)="updateInputFormat()">
-                    <div class="input-group-append">
-                        <span class="input-group-text">%</span>
-                    </div>
+                <div class="col-md-4">
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'mortgage_term'" 
+                        [controlLabel]="'Term (years)'"
+                        [disable]=false [placeholder]=0 [val]="30">
+                    </text-field>   
+                </div>
+                <div class="col-md-4">
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'interest_rate'" 
+                        [controlLabel]="'Interest Rate'"
+                        [icon]="'%'" [disable]=false [placeholder]=0 [val]="0">
+                    </text-field>
                 </div>
             </div>
             <br style="clear:both" />
