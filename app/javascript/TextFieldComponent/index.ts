@@ -33,6 +33,8 @@ export class TextFieldComponent implements OnInit {
         this.property_inputs = this.fb.group({
             control: [{value: this.val, disabled: this.disable}]
         })
+
+        this.control_value = parseFloat(this.val);
     }
 
     formControls() {
@@ -40,14 +42,20 @@ export class TextFieldComponent implements OnInit {
     }
 
     updateInputFormat() {
-        this.control_value = typeof this.formControls().control == "string" ?
+        let current_val = typeof this.formControls().control == "string" ?
             parseFloat( this.formControls().control.replace(",","") ) || 0 :
             this.formControls().control;
 
-        this.property_inputs.controls.control
+        if ( current_val != this.control_value ) {
+            this.control_value = current_val;
+
+            this.property_inputs.controls.control
             .setValue( this.utilities.formatCurrencyToString(this.control_value) );
         
-        this.updateCommonData();
+            this.updateCommonData();
+
+            this.valueChanged.emit(this.control_value);
+        }
     }
 
     updateCommonData() {

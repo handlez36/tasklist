@@ -10,6 +10,7 @@
                         [formGroup]="property_inputs"
                         [controlName]="'vacancy_rate_perc'" 
                         [controlLabel]="'Vacancy and Credit Loss (%)'"
+                        (valueChanged)="updatedVacancyCost($event)"
                         [icon]="'%'" [disable]=false [placeholder]=0 [val]="0">
                     </text-field>
                 </div>

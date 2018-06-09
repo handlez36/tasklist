@@ -30,7 +30,7 @@ export class OperatingExpenseFormComponent implements OnInit {
         })       
     }
 
-    testTextField() {
-        this.testValue += 1;
+    updatedVacancyCost(event) {
+        console.log("OperatingExpenseFormComponent#updatedVacancyCost");
     }
 }
