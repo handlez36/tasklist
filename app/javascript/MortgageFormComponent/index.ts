@@ -47,7 +47,9 @@ export class MortgageFormComponent implements OnInit {
         this.commonData.numbers
             .subscribe( data => {
                 this.price = this.utilities.formatCurrencyToString(data.price);
-                this.updateMortgage(false);                
+                this.updateMortgage(false);
+                
+                console.log("Data: ", data);
             });
     }
 

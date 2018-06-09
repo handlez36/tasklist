@@ -6,193 +6,123 @@
         <div [formGroup]="property_inputs">
             <div class="row">
                 <div class="col-md-6">
-                    <label for="vacancy_rate_perc">Vacancy and Credit Loss</label><br />
-                    <div class="input-group">
-                        <input 
-                            class="form-control"
-                            formControlName="vacancy_rate_perc"
-                            value=""
-                            (blur)="updateInputFormat()">
-                        <div class="input-group-append">
-                            <span class="input-group-text">%</span>
-                        </div>
-                    </div>
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'vacancy_rate_perc'" 
+                        [controlLabel]="'Vacancy and Credit Loss (%)'"
+                        [icon]="'%'" [disable]=false [placeholder]=0 [val]="0">
+                    </text-field>
                 </div>
                 <div class="col-md-6">
-                    <label for="asking_price">Vacancy and Credit Loss</label><br />
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">$</span>
-                        </div>
-                        <input 
-                            disabled
-                            class="form-control"
-                            formControlName="vacancy_rate_cost"
-                            placeholder="0.00"
-                            value=""
-                            (blur)="updateInputFormat()">
-                    </div>
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'vacancy_rate_cost'" 
+                        [controlLabel]="'Vacancy and Credit Loss ($)'"
+                        [icon]="'$'" [disable]=true [placeholder]=0 [val]="0.00">
+                    </text-field>
                 </div>
             </div>
-
             <br />
-
             <div class="row">
                 <div class="col-md-6">
-                    <label for="repair_perc">Percent for repair</label><br />
-                    <div class="input-group">
-                        <input 
-                            class="form-control"
-                            formControlName="repair_perc"
-                            value=""
-                            (blur)="updateInputFormat()">
-                        <div class="input-group-append">
-                            <span class="input-group-text">%</span>
-                        </div>
-                    </div>
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'repair_perc'" 
+                        [controlLabel]="'Repair (%)'"
+                        [icon]="'%'" [disable]=false [placeholder]=0 [val]="0.00">
+                    </text-field>
                 </div>
                 <div class="col-md-6">
-                    <label for="repair_cost">Repair costs</label><br />
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">$</span>
-                        </div>
-                        <input 
-                            disabled
-                            class="form-control"
-                            formControlName="repair_cost"
-                            placeholder="0.00"
-                            value=""
-                            (blur)="updateInputFormat()">
-                    </div>
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'repair_cost'" 
+                        [controlLabel]="'Repair ($)'"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
+                    </text-field>
                 </div>
             </div>
-
             <br />
-
             <div class="row">
                 <div class="col-md-12">
-                    <label for="large_item_repairs">Large item repairs</label><br />
-                    <div class="input-group">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">$</span>
-                        </div>
-                        <input 
-                            class="form-control"
-                            formControlName="large_item_repairs"
-                            value=""
-                            (blur)="updateInputFormat()">
-                    </div>
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'large_item_repairs'" 
+                        [controlLabel]="'Large item repairs (%)'"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
+                    </text-field>
                 </div>
             </div>
-        
             <br />
             <h5>Utilities</h5>
             <div class="row">
                 <div class="col-md-4">
-                    <label for="water_utility">Water/Sewer</label><br />
-                    <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">$</span></div>
-                        <input 
-                            class="form-control"
-                            formControlName="water_utility"
-                            value=""
-                            (blur)="updateInputFormat()">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <label for="garbage_utility">Garbage</label><br />
-                    <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">$</span></div>
-                        <input 
-                            class="form-control"
-                            formControlName="garbage_utility"
-                            value=""
-                            (blur)="updateInputFormat()">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <label for="gas_utility">Gas</label><br />
-                    <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">$</span></div>
-                        <input 
-                            class="form-control"
-                            formControlName="gas_utility"
-                            value=""
-                            (blur)="updateInputFormat()">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <label for="electricity_utility">Electricity</label><br />
-                    <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">$</span></div>
-                        <input 
-                            class="form-control"
-                            formControlName="electricity_utility"
-                            value=""
-                            (blur)="updateInputFormat()">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <label for="hoa">HOA</label><br />
-                    <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">$</span></div>
-                        <input 
-                            class="form-control"
-                            formControlName="hoa"
-                            value=""
-                            (blur)="updateInputFormat()">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <label for="maintenance">Maintenance</label><br />
-                    <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">$</span></div>
-                        <input 
-                            class="form-control"
-                            formControlName="maintenance"
-                            value=""
-                            (blur)="updateInputFormat()">
-                    </div>
-                </div>
-            </div>
-            <div class="row">
-                <div class="col-md-4">
-                    <label for="property_management">Property Management</label><br />
-                    <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">$</span></div>
-                        <input 
-                            class="form-control"
-                            formControlName="property_management"
-                            value=""
-                            (blur)="updateInputFormat()">
-                    </div>
-                </div>
-                <div class="col-md-4">
-                    <label for="other">Other</label><br />
-                    <div class="input-group">
-                        <div class="input-group-prepend"><span class="input-group-text">$</span></div>
-                        <input 
-                            class="form-control"
-                            formControlName="other"
-                            value=""
-                            (blur)="updateInputFormat()">
-                    </div>
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'water_utility'" 
+                        [controlLabel]="'Water/Sewer'"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
+                    </text-field>
                 </div>
                 <div class="col-md-4">
                     <text-field
                         [formGroup]="property_inputs"
-                        [controlName]="testControl"
-                        [controlLabel]="'Test Component'"
-                        [icon]="$"
-                        [disable]=false
-                        [placeholder]=0.00
-                        [val]="testValue">
+                        [controlName]="'garbage_utility'" 
+                        [controlLabel]="'Garbage'"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
                     </text-field>
                 </div>
-                <button (click)="testTextField()">Click Me</button>
+                <div class="col-md-4">
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'gas_utility'" 
+                        [controlLabel]="'Gas'"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
+                    </text-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'electricity_utility'" 
+                        [controlLabel]="'Electricity'"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
+                    </text-field>
+                </div>
+                <div class="col-md-4">
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'hoa'" 
+                        [controlLabel]="'HOA'"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
+                    </text-field>
+                </div>
+                <div class="col-md-4">
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'maintenance'" 
+                        [controlLabel]="'Maintenance'"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
+                    </text-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'property_management'" 
+                        [controlLabel]="'Property Management'"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
+                    </text-field>
+                </div>
+                <div class="col-md-4">
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'other'" 
+                        [controlLabel]="'Other'"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
+                    </text-field>
+                </div>
             </div>
             <br style="clear:both" />
         </div>

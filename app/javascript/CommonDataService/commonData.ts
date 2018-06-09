@@ -33,8 +33,11 @@ export class CommonDataService {
 
     updatePropertyNumbers(updatedField) {
         console.log("CommonDataService#updatePropertyNumbers");
+        console.log("Field key: ", updatedField);
 
         this.numbers[updatedField.key] = updatedField.value;
+
+        console.log("Updated numbers: ", this.numbers);
         this.numbers.next(this.numbers);
     }
 

@@ -1,7 +1,7 @@
 <form [formGroup]="property_inputs">
     <label for="control">{{ controlLabel }}</label><br />
     <div class="input-group">
-        <div class="input-group-prepend">
+        <div *ngIf="icon == '$'" class="input-group-prepend">
             <span class="input-group-text">$</span>
         </div>
         <input 
@@ -9,5 +9,8 @@
             formControlName="control"
             [(ngModel)]="val"
             (blur)="updateInputFormat()">
+        <div *ngIf="icon == '%'" class="input-group-append">
+            <span class="input-group-text">%</span>
+        </div>
     </div>
 </form>

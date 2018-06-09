@@ -1,5 +1,5 @@
 import { CommonDataService } from './../CommonDataService/commonData';
-import { FormGroup, FormBuilder } from '@angular/forms';
+import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { OnInit, Component, Input, Inject, Output } from '@angular/core';
 import template from "./template.html";
 import { CommonUtilityService } from '../CommonUtilityService/commonUtility';
@@ -25,14 +25,13 @@ export class TextFieldComponent implements OnInit {
     constructor(
         @Inject(FormBuilder) private fb, 
         @Inject(CommonDataService) private commonData,
-        @Inject(CommonUtilityService) private utilities) {
+        @Inject(CommonUtilityService) private utilities) 
+    {
     }
 
     ngOnInit() {
-        this.property_inputs = this.formGroup;
-
         this.property_inputs = this.fb.group({
-            control: []
+            control: [{value: this.val, disabled: this.disable}]
         })
     }
 
@@ -41,7 +40,10 @@ export class TextFieldComponent implements OnInit {
     }
 
     updateInputFormat() {
-        this.control_value = parseFloat( this.formControls().control.replace(",","") ) || 0;
+        this.control_value = typeof this.formControls().control == "string" ?
+            parseFloat( this.formControls().control.replace(",","") ) || 0 :
+            this.formControls().control;
+
         this.property_inputs.controls.control
             .setValue( this.utilities.formatCurrencyToString(this.control_value) );
         
@@ -49,8 +51,6 @@ export class TextFieldComponent implements OnInit {
     }
 
     updateCommonData() {
-        let currentValue = parseFloat( this.formControls().control );
-
-        this.commonData.updatePropertyNumbers({ key: this.controlName, value: currentValue });
+        this.commonData.updatePropertyNumbers({ key: this.controlName, value: this.control_value });
     }
 }
