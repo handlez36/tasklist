@@ -17,7 +17,7 @@ export class TextFieldComponent implements OnInit {
     @Input() placeholder;
     @Input() val;
 
-    @Output() currentVal;
+    @Output() valueChanged;
 
     private property_inputs: FormGroup
     private control_value: number;
