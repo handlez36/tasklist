@@ -8,9 +8,11 @@
             class="form-control"
             formControlName="control"
             [(ngModel)]="val"
+            (ngModelChange)="indirectUpdate()"
+            (focus)="inFocus()"
             (blur)="updateInputFormat()">
-        <div *ngIf="icon == '%'" class="input-group-append">
-            <span class="input-group-text">%</span>
+        <div *ngIf="icon == '%' || icon == 'sq ft'" class="input-group-append">
+            <span class="input-group-text">{{ icon }}</span>
         </div>
     </div>
 </form>

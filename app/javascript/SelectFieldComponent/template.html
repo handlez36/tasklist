@@ -1,0 +1,10 @@
+<form [formGroup]="property_inputs">
+    <label for="control">{{ controlLabel }}</label><br />
+    <select
+        class="form-control" 
+        formControlName="control"
+        [(ngModel)]="val"
+        (change)="updatePropertyValues()">
+        <option *ngFor="let item of list" value="{{ vals[list.indexOf(item)] }}">{{ item }}</option>    
+    </select>
+</form>

@@ -13,6 +13,7 @@ import { CommonUtilityService } from '../CommonUtilityService/commonUtility';
 })
 export class MortgageFormComponent implements OnInit {
     private property_inputs: FormGroup;
+    private mortgageDetails: any;
 
     private ask: any        = 0.0;
     private price: any      = 0.0;
@@ -47,6 +48,7 @@ export class MortgageFormComponent implements OnInit {
         this.commonData.numbers
             .subscribe( data => {
                 this.price = this.utilities.formatCurrencyToString(data.price);
+                this.mortgageDetails = data;
                 this.updateMortgage(false);
                 
                 console.log("Data: ", data);
@@ -79,8 +81,10 @@ export class MortgageFormComponent implements OnInit {
             parseFloat(this.price.replace(",","")) :
             this.price
 
+        let loan_point_cost = this.utilities.getFloatFor(this.mortgageDetails, "loan_point_cost") || 0.00;
+
         if (tempPrice > 0) {            
-            let amortized_schedule = amortization.amortizationSchedule( tempPrice - this.dp, this.term, this.rate );
+            let amortized_schedule = amortization.amortizationSchedule( tempPrice - this.dp - loan_point_cost, this.term, this.rate );
             this.monthly_payment = this.utilities.formatCurrencyToString(amortized_schedule[0].payment);
             this.total_interest = this.utilities.formatCurrencyToString(amortized_schedule.reduce( (total, amt) => total + amt.interestPayment, 0.0 ));
         }

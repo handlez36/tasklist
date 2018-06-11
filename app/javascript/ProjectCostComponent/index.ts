@@ -1,3 +1,4 @@
+import { ProfileComponent } from './../ProfileComponent/index';
 import { CommonUtilityService } from './../CommonUtilityService/commonUtility';
 import { Component, OnInit, Inject, Input } from '@angular/core';
 import { Http } from '@angular/http';
@@ -14,14 +15,19 @@ import { CommonDataService } from '../CommonDataService/commonData';
 })
 export class PropertyCostFormComponent implements OnInit {
     private mortgageDetails: any;
-    private property_inputs: FormGroup;
+    private cost_of_purchase_form: FormGroup;
+
+    private conditions: any;
+    private condition_keys: any;
 
     private pre_rent_holding: number;
     private estimated_repairs: any;
 
     private price: number;
-    private closing_costs: number;
-    private pre_rent_holding_costs: number      = 0.0;
+    private closing_cost: number                = 0.0;
+    private closing_cost_perc: number           = 0;
+    private pre_rent_holding_cost: number       = 0.0;
+    private loan_point_cost: number             = 0.0;
     private estimated_paint: number;
     private estimated_foundation: number;
     private estimated_roof: number;
@@ -32,7 +38,8 @@ export class PropertyCostFormComponent implements OnInit {
     private use_closing_cost_perc: boolean;
     private use_repair_perc: boolean;
 
-    private repair_paint_carpet: number;
+    private repair_house_condition: string;
+    private repair_paint_carpet: number = 0.0;
     private repair_foundation: number;
     private repair_roof: number;
     private repair_ac: number;
@@ -40,135 +47,134 @@ export class PropertyCostFormComponent implements OnInit {
     constructor(
         @Inject(FormBuilder) private fb, 
         @Inject(CommonDataService) private commonData,
-        @Inject(CommonUtilityService) private utilities) {
+        @Inject(CommonUtilityService) private utilities) 
+    {
         console.log("PropertyCostFormComponent#constructor");
 
         this.use_closing_cost_perc = false;
         this.use_repair_perc = false;
+
+        this.conditions =
+        {
+            '-Custom-': 0.00,
+            'Great':    5.00,
+            'Good':     10.00,
+            'Bad':      20.00
+        }
+        this.condition_keys = Object.keys(this.conditions);
+        this.repair_house_condition = "-Custom-";
     }
 
     ngOnInit() {
-        var decRequirement: RegExp = new RegExp('[\\d\\.]+');
-        var numRequirement: RegExp = new RegExp('[\\d\\.]+');
-        
-        this.property_inputs = this.fb.group({
-            pre_rent_holding:               ["0", Validators.pattern(numRequirement) ],
-            repair_paint_carpet:            ["0.00", Validators.pattern(decRequirement) ],
-            repair_ac:                      ["0.00", Validators.pattern(decRequirement) ],
-            repair_foundation:              ["0.00", Validators.pattern(decRequirement) ],
-            repair_roof:                    ["0.00", Validators.pattern(decRequirement) ],
-            use_repair_perc_control:        [false ],
-            closing_cost:                   ["0.00", Validators.pattern(decRequirement) ],
-            closing_cost_perc:              ["0.00", Validators.pattern(decRequirement) ],
-            use_closing_cost_perc_control:  [false]
-        });
+        this.cost_of_purchase_form = this.fb.group({});
 
         this.commonData.numbers
             .subscribe( data => {
-                // data.price = this.utilities.formatCurrencyToString(data.price);
-                // data.dp = this.utilities.formatCurrencyToString(data.dp);
-                // data.monthly_payment = this.utilities.formatCurrencyToString(data.monthly_payment);
                 this.mortgageDetails = data;
                 
-                this.updateClosingCosts(false);
-                this.updatePreRentHoldingCosts(false);
+                this.updateClosingCostField();
                 this.updateEstimatedRepairCost(false);
+                this.updatePropertyConditionDropdown();
+                this.updateLoanPointCost();
             });
     }
 
-    updateClosingCosts(updateCommonData = true) {
+    updateClosingCosts(data) {
         console.log("ProjectCostComponent#updateClosingCosts");
 
-        let price = this.utilities.getFloatFor(this.mortgageDetails, "price");
-        let closing_cost = 0;
+        let price = typeof this.mortgageDetails.price == "string" ?
+            parseFloat( this.mortgageDetails.price.replace(",","") ) :
+            this.mortgageDetails.price;
 
-        if(this.use_closing_cost_perc) {
-            let closing_cost_perc = parseFloat( this.formControls().closing_cost_perc ) / 100;
-            closing_cost = price * closing_cost_perc;
-            
-            this.property_inputs.controls.closing_cost.setValue(this.utilities.formatCurrencyToString(closing_cost));
+        if (price && price > 0)
+        {
+            let percentage = data / 100;
+            this.closing_cost = price * percentage;
         }
-        this.updateInputFormat();
-        
-        if (updateCommonData) { 
-            this.updateCommonData({ closing_cost: closing_cost }) 
-        }
+        // debugger;
     }
 
-    updatePreRentHoldingCosts(updateCommonData = true) {
+    updatePreRentHoldingCosts(data) {
         console.log("ProjectCostComponent#updatePreRentHoldingCosts");
 
-        let monthly_rent = this.utilities.getFloatFor(this.mortgageDetails, "monthly_rent");
-        let pre_rent_holding_length = parseInt(this.formControls().pre_rent_holding);
-        let cost = 0;
+        let monthly_rent        = this.utilities.getFloatFor(this.mortgageDetails, "monthly_rent");
+        let holding_months      = this.utilities.getIntFor(this.mortgageDetails, "pre_rent_holding_months")
 
-        if(pre_rent_holding_length) {
-            cost = monthly_rent * pre_rent_holding_length;
-            // this.property_inputs.controls.pre_rent_holding_cost.setValue(this.utilities.formatCurrencyToString(cost));
-            this.pre_rent_holding_costs = this.utilities.formatCurrencyToString(cost);
-        }
-        this.updateInputFormat();
-        if (updateCommonData) { 
-            this.updateCommonData({ pre_rent_holding_cost: cost }) 
+        if (monthly_rent && holding_months) {
+            this.pre_rent_holding_cost = monthly_rent * holding_months;
         }
     }
 
-    
+    updatePropertyConditionDropdown() {
+        let property_size           = this.mortgageDetails.property_size;
+        let multiplier              = this.conditions[this.mortgageDetails.repair_house_condition];
+        let condition_match_flag    = false;
+
+        this.condition_keys.forEach( condition => {
+            if ( this.mortgageDetails.repair_paint_carpet && 
+                (this.mortgageDetails.repair_paint_carpet == property_size * multiplier) ) 
+            {
+                condition_match_flag = true;
+                this.repair_house_condition = condition;
+            }
+            if (!condition_match_flag) { this.repair_house_condition = "-Custom-"}
+        })
+    }
+
+    updateClosingCostField() {
+        let price = typeof this.mortgageDetails.price  == "string" ?
+            parseFloat( this.mortgageDetails.price.replace(",","") ) :
+            this.mortgageDetails.price
+
+        let perc = typeof this.mortgageDetails.closing_cost_perc  == "string" ?
+            parseFloat( this.mortgageDetails.closing_cost_perc ) :
+            this.mortgageDetails.closing_cost_perc
+
+        let closing_costs = typeof this.mortgageDetails.closing_cost  == "string" ?
+            parseFloat( this.mortgageDetails.closing_cost ) :
+            this.mortgageDetails.closing_cost
+
+        if ( (price && perc && closing_costs) &&
+             price * (perc/100)  != closing_costs) {
+            this.closing_cost_perc = (closing_costs / price) * 100;
+        }
+    }
+
+    updatePaintCarpetEstimateCost(event) {
+        console.log("ProjectCostComponent#updatePaintCarpetEstimateCost");
+        
+        if (event != "-Custom-") {
+            let property_size   = this.mortgageDetails.property_size;
+            let multiplier      = this.conditions[this.mortgageDetails.repair_house_condition];
+            
+            this.repair_paint_carpet = property_size * multiplier;
+        }
+    }
 
     updateEstimatedRepairCost(updateCommonData = true) {
         console.log("ProjectCostComponent#updateEstimatedRepairCost");
 
-        let paint_carpet            = parseFloat( this.formControls().repair_paint_carpet );
-        let foundation              = parseFloat( this.formControls().repair_foundation );
-        let roof                    = parseFloat( this.formControls().repair_roof );
-        let ac                      = parseFloat( this.formControls().repair_ac );
+        this.estimated_repairs = 
+            ( parseFloat( this.mortgageDetails.repair_paint_carpet ) || 0.00 ) +
+            ( parseFloat( this.mortgageDetails.repair_foundation ) || 0.00 ) +
+            ( parseFloat( this.mortgageDetails.repair_roof ) || 0.00 ) +
+            ( parseFloat( this.mortgageDetails.repair_ac ) || 0.00 )
 
-        console.log("Paint: " + paint_carpet + "; foundation: " + foundation + "; roof: " + roof + "; ac: " + ac);
-        this.estimated_repairs      = this.utilities.formatCurrencyToString(paint_carpet + foundation + roof + ac)
+        this.estimated_repairs = this.utilities.formatCurrencyToString(this.estimated_repairs);
+    }
 
-        this.updateInputFormat();
-        if (updateCommonData) { 
-            this.updateCommonData({
-                 repair_paint_carpet:   paint_carpet,
-                 repair_foundation:     foundation,
-                 repair_roof:           roof,
-                 repair_ac:             ac
-            }) 
+    updateLoanPointCost() {
+        console.log("ProjectCostComponent#updateLoanPointCost");
+
+        let points      = this.utilities.getIntFor( this.mortgageDetails, "loan_points");
+        let price       = this.utilities.getFloatFor( this.mortgageDetails, "price" );
+        let dp          = this.utilities.getFloatFor( this.mortgageDetails, "down_payment" );
+        let points_cost = this.utilities.getFloatFor( this.mortgageDetails, "loan_point_cost");
+
+        if ( (points >= 0 && price >= 0 && dp >= 0) &&
+              points_cost != (points / 100) * (price - dp) ) 
+        {
+            this.loan_point_cost = (points / 100) * (price - dp);
         }
-    }
-
-    formControls() {
-        return this.property_inputs.value;
-    }
-
-    toggle_use_percentage(for_what) {
-        console.log("Use percentage for closing costs: ", this.formControls().use_closing_cost_perc_control);
-        console.log("Use percentage for repair costs: ", this.formControls().use_repair_perc_control);
-
-        this.formControls().use_repair_perc_control == "Yes" ?
-            this.use_repair_perc = true :
-            this.use_repair_perc = false;
-
-        this.formControls().use_closing_cost_perc_control == "Yes" ?
-            this.use_closing_cost_perc = true :
-            this.use_closing_cost_perc = false;
-    }
-
-    updateInputFormat() {
-        let cc              = this.formControls().closing_cost;
-        let paint           = this.formControls().repair_paint_carpet;
-        let foundation      = this.formControls().repair_foundation;
-        let roof            = this.formControls().repair_roof;
-        let ac              = this.formControls().repair_ac;
-
-        this.property_inputs.controls.closing_cost.setValue(accounting.formatMoney(cc).replace("$",""));
-        this.property_inputs.controls.repair_paint_carpet.setValue(accounting.formatMoney(paint).replace("$",""));
-        this.property_inputs.controls.repair_foundation.setValue(accounting.formatMoney(foundation).replace("$",""));
-        this.property_inputs.controls.repair_roof.setValue(accounting.formatMoney(roof).replace("$",""));
-        this.property_inputs.controls.repair_ac.setValue(accounting.formatMoney(ac).replace("$",""));
-    }
-
-    updateCommonData(cost_of_purchase) {
-        this.commonData.updatePropertyNumbers(cost_of_purchase);
     }
 }

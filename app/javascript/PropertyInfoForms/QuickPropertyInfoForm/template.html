@@ -4,45 +4,59 @@
     </header>
     <section class="panel-body">
         <div [formGroup]="property_inputs">
-            <div>
-                <label for="asking_price">Purchase Price (from seller)</label><br />
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">$</span>
-                    </div>
-                    <input 
-                        class="form-control"
-                        formControlName="asking_price"
-                        placeholder="Asking Price"
-                        value="{{ mortgageDetails.price }}"
-                        (blur)="updateInputFormat()">
+            <div class="row">
+                <div class="col-md-12">
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'prop_info_price'" 
+                        [controlLabel]="'Purchase Price (from buyer)'"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="mortgageDetails.price">
+                    </text-field>
                 </div>
             </div>
-            <br />
-            <div>
-                <label for="monthly_rent">Estimated Monthly Rent</label><br />
-                <div class="input-group">
-                    <div class="input-group-prepend">
-                        <span class="input-group-text">$</span>
-                    </div>
-                    <input 
-                        class="form-control" 
-                        formControlName="monthly_rent"
-                        placeholder="Monthly Rent"
-                        (blur)="updateInputFormat()">
+            <div class="row">
+                <div class="col-md-12">
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'monthly_rent'" 
+                        [controlLabel]="'Estimated Monthly Rent'"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
+                    </text-field>
                 </div>
             </div>
-            <br />
-            <div>
-                <label for="property_size">Property Size</label>
-                <div class="input-group">
-                    <input class="form-control" formControlName="property_size" placeholder="Lot Size (sq ft)">
-                    <div class="input-group-append">
-                        <span class="input-group-text">sq ft</span>
-                    </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'property_size'" 
+                        [controlLabel]="'Property Size'"
+                        [transform]=false
+                        [icon]="'sq ft'" [disable]=false [placeholder]=0 [val]="0">
+                    </text-field>
                 </div>
             </div>
-            <br style="clear:both" />
+            <div class="row" style="margin-top: 10px">
+                <div class="col-md-3">
+                    <select-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'purchase_month'" 
+                        [controlLabel]="'Month of purchase'"
+                        [list]="month_names"
+                        [vals]="month_vals"
+                        [persistable]=true>
+                    </select-field>
+                </div>
+                <div class="col-md-3">
+                    <select-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'purchase_year'" 
+                        [controlLabel]="'Year of purchase'"
+                        [list]="years"
+                        [vals]="years"
+                        [persistable]=true>
+                    </select-field>
+                </div>
+            </div>
         </div>
     </section>
 </article>

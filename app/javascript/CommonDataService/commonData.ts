@@ -37,6 +37,7 @@ export class CommonDataService {
 
         this.numbers[updatedField.key] = updatedField.value;
 
+        // debugger;
         console.log("Updated numbers: ", this.numbers);
         this.numbers.next(this.numbers);
     }

@@ -1,6 +1,6 @@
 import { CommonDataService } from './../CommonDataService/commonData';
 import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
-import { OnInit, Component, Input, Inject, Output } from '@angular/core';
+import { OnInit, Component, Input, Inject, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import template from "./template.html";
 import { CommonUtilityService } from '../CommonUtilityService/commonUtility';
 
@@ -16,17 +16,30 @@ export class TextFieldComponent implements OnInit {
     @Input() disable;
     @Input() placeholder;
     @Input() val;
+    @Input() persist: boolean = true;
+    @Input() transform: boolean = true;
 
-    @Output() valueChanged;
+    @Output() valueChanged: EventEmitter<any>;
+    @Output() valManuallyChanged: EventEmitter<any>;
 
     private property_inputs: FormGroup
-    private control_value: number;
+    private control_value: any;
+    private infocus: boolean = false;
+    private indirectChangeFields: any;
 
     constructor(
         @Inject(FormBuilder) private fb, 
         @Inject(CommonDataService) private commonData,
-        @Inject(CommonUtilityService) private utilities) 
+        @Inject(CommonUtilityService) private utilities,
+        private cdRef:ChangeDetectorRef) 
     {
+        this.valueChanged = new EventEmitter<any>();
+
+        this.indirectChangeFields = 
+        [
+            "repair_paint_carpet", "closing_cost", "pre_rent_holding_cost",
+            "loan_point_cost", "vacancy_rate_cost", "repair_cost"
+        ]
     }
 
     ngOnInit() {
@@ -41,18 +54,52 @@ export class TextFieldComponent implements OnInit {
         return this.property_inputs.value;
     }
 
-    updateInputFormat() {
+    inFocus() {
+        this.infocus = true;
+    }
+
+    indirectUpdate() {
+        // if (this.controlName == "repair_paint_carpet" || this.controlName == "closing_cost" || this.controlName == "pre_rent_holding_cost")
+        // if ( this.this.indirectChangeFields.indexOf(this.controlName) != -1 )
+        if (this.controlName == "loan_points") {
+            console.log("BEFORE IN HERE");
+        }
+        if ( ( this.indirectChangeFields.indexOf(this.controlName) != -1 )
+             && !this.infocus )
+        {
+            console.log("IN HERE");
+            setTimeout( () => {
+                this.updateInputFormat(true);
+            }, 300 )
+        }
+    }
+
+    updateInputFormat(indirectUpdatedValue = false) {
+        this.infocus = false;
+
         let current_val = typeof this.formControls().control == "string" ?
             parseFloat( this.formControls().control.replace(",","") ) || 0 :
             this.formControls().control;
 
-        if ( current_val != this.control_value ) {
-            this.control_value = current_val;
-
-            this.property_inputs.controls.control
-            .setValue( this.utilities.formatCurrencyToString(this.control_value) );
+        let newVal = (typeof this.val == "string") ?
+            parseFloat(this.val.replace(",","")) :
+            this.val
         
-            this.updateCommonData();
+        current_val = (indirectUpdatedValue) ? 
+            parseFloat(newVal) : 
+            current_val;
+
+        if ( current_val != this.control_value ) {
+            this.control_value = parseFloat(("" + current_val).replace(",",""));
+
+            if (this.transform) {
+                this.property_inputs.controls.control
+                    .setValue( this.utilities.formatCurrencyToString(this.control_value) );
+            }
+        
+            if (this.persist) {
+                this.updateCommonData();
+            }
 
             this.valueChanged.emit(this.control_value);
         }

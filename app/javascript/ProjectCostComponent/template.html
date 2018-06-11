@@ -1,143 +1,122 @@
-<article class="panel panel-default col-md-6" class="pull-left" id="property-section">
+<article class="panel panel-default col-md-6" class="pull-left" id="cost-of-purchase-section">
     <header class="panel-heading">
         <h2>Cost of Purchase</h2>
     </header>
     <section class="panel-body">
-        <div [formGroup]="property_inputs">
+        <div [formGroup]="cost_of_purchase_form">
             <div class="row">
-                <div class="col-md-3">Purchase Price: ${{ mortgageDetails.price || 0.00 }}</div>
-                <div class="input-group col-md-5">
-                    <div>Closing Costs:</div>
-                    <div class="input-group" style="height:30px">
-                        <div class="input-group-prepend">
-                            <span class="input-group-text">$</span>
-                        </div>
-                        <input 
-                            formControlName="closing_cost"
-                            class="form-control"
-                            style="width: 100px"
-                            value="5000"
-                            (blur)="updateInputFormat()">
-                    </div>
+                <div class="col-md-6">
+                    <text-field
+                        [formGroup]="cost_of_purchase_form"
+                        [controlName]="'closing_cost'" 
+                        [controlLabel]="'Closing Costs'"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="closing_cost">
+                    </text-field>
                 </div>
-                <div class="input-group col-md-4" style="height:20px">
-                    <label for="use_closing_cost_perc_control">Use percentage?</label>
-                    <div class="input-group">
-                        <select formControlName="use_closing_cost_perc_control" (change)="toggle_use_percentage('closingCost')">
-                            <option value="Yes">Yes</option>
-                            <option [selected]="true" value="No">No</option>
-                        </select>
-                        <input 
-                            *ngIf="use_closing_cost_perc" 
-                            formControlName="closing_cost_perc"
-                            class="form-control"
-                            style="height:20px;margin-left:5px;max-width:40px!important;"
-                            value="{{ mortgageDetails.closing_costs }}"
-                            (blur)="updateClosingCosts()" />
-                    </div>
+                <div class="col-md-6">
+                    <text-field
+                        [formGroup]="cost_of_purchase_form"
+                        [controlName]="'closing_cost_perc'" 
+                        [controlLabel]="'Percentage of price'"
+                        (valueChanged)="updateClosingCosts($event)"
+                        [icon]="'%'" [disable]=false [placeholder]=0 [val]="closing_cost_perc">
+                    </text-field>
                 </div>
             </div>
-            <br /><br />
-            <div>
-                <div>
-                    Pre-rent holding period (in months)
-                    <div class="row">
-                        <div class="col-md-4" style="height:20px">
-                            <label for="asking_price">Number of months</label><br />
-                            <input 
-                                class="form-control" 
-                                formControlName="pre_rent_holding" 
-                                style="height:20px;width:50px"
-                                (blur)="updatePreRentHoldingCosts()">
-                        </div>
-                        <div class="input-group col-md-4">
-                            Pre-rent holding costs: <br />
-                            ${{ pre_rent_holding_costs }}
-                        </div>
-                    </div>
+            <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <text-field
+                        [formGroup]="cost_of_purchase_form"
+                        [controlName]="'pre_rent_holding_months'" 
+                        [controlLabel]="'Pre-rent holding months'"
+                        (valueChanged)="updatePreRentHoldingCosts($event)"
+                        [transform]=false
+                        [icon]="" [disable]=false [placeholder]=0 [val]="0">
+                    </text-field>
                 </div>
-                <br style="clear:both" />
-                <br /><br />
-                <div>
-                    <div class="row">
-                        Estimated Repairs: ${{ estimated_repairs }}
-                    </div>
-                    <div class="row">
-                        <div class="col-md-4">Paint, Carpet, etc...:</div>
-                        <div class="col-md-4">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">$</span>
-                                </div>
-                                <input 
-                                    class="form-control" 
-                                    formControlName="repair_paint_carpet" 
-                                    placeholder="0.00"
-                                    (blur)="updateEstimatedRepairCost()">
-                            </div>        
-                        </div>
-                        <div class="col-md-4">
-                            <label for="use_repair_perc">Use percentage?</label><br />
-                            <div class="input-group" style="margin-top:-10px">
-                                <select formControlName="use_repair_perc_control" (change)="toggle_use_percentage('repair')">
-                                    <option value="Yes">Yes</option>
-                                    <option [selected]="true" value="No">No</option>
-                                </select>
-                                <input *ngIf="use_repair_perc" class="form-control" style="height:20px;margin-left:5px;max-width:40px!important;" />
-                            </div>                        
-                        </div>
-                    </div><br />
-                    <div class="row">
-                        <div class="col-md-4">Foundation</div>
-                        <div class="col-md-4">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">$</span>
-                                </div>
-                                <input 
-                                    class="form-control" 
-                                    formControlName="repair_foundation" 
-                                    placeholder="0.00"
-                                    (blur)="updateEstimatedRepairCost()">
-                            </div>        
-                        </div>
-                    </div><br />
-                    <div class="row">
-                        <div class="col-md-4">Roof</div>
-                        <div class="col-md-4">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">$</span>
-                                </div>
-                                <input 
-                                    class="form-control" 
-                                    formControlName="repair_roof" 
-                                    placeholder="0.00"
-                                    (blur)="updateEstimatedRepairCost()">
-                            </div>        
-                        </div>
-                    </div><br />
-                    <div class="row">
-                        <div class="col-md-4">A/C:</div>
-                        <div class="col-md-4">
-                            <div class="input-group">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text">$</span>
-                                </div>
-                                <input 
-                                    class="form-control" 
-                                    formControlName="repair_ac" 
-                                    placeholder="0.00"
-                                    (blur)="updateEstimatedRepairCost()">
-                            </div>        
-                        </div>
-                    </div>
+                <div class="col-md-6">
+                    <text-field
+                        [formGroup]="cost_of_purchase_form"
+                        [controlName]="'pre_rent_holding_cost'" 
+                        [controlLabel]="'Pre-rent holding cost'"
+                        [icon]="'$'" [disable]=true [placeholder]=0 [val]="pre_rent_holding_cost">
+                    </text-field>
                 </div>
-                <br />
-                <div>
-                    Loan Points: $1,000.00
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
+                    <text-field
+                        [formGroup]="cost_of_purchase_form"
+                        [controlName]="'estimated_repair_cost'" 
+                        [controlLabel]="'Total estimated repairs'"
+                        [icon]="'$'" [disable]=true [placeholder]=0 [val]="estimated_repairs || 0.00">
+                    </text-field>
                 </div>
-                <br style="clear:both" />
+            </div>
+            <div class="row">
+                <div class="col-md-6">
+                    <text-field
+                        [formGroup]="cost_of_purchase_form"
+                        [controlName]="'repair_paint_carpet'" 
+                        [controlLabel]="'Paint, carpet, etc...'"
+                        (valueChanged)="updateEstimatedRepairCost($event)"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="repair_paint_carpet">
+                    </text-field>
+                </div>
+                <div class="col-md-6">
+                    <select-field
+                        [formGroup]="cost_of_purchase_form"
+                        [controlName]="'repair_house_condition'" 
+                        [controlLabel]="'House condition'"
+                        [default]="'-Custom-'"
+                        [val]="repair_house_condition"
+                        [list]="condition_keys"
+                        [vals]="condition_keys"
+                        [persistable]=true
+                        (valueChanged)=updatePaintCarpetEstimateCost($event)>
+                    </select-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-4">
+                    <text-field
+                        [formGroup]="cost_of_purchase_form"
+                        [controlName]="'repair_foundation'" 
+                        [controlLabel]="'Foundation'"
+                        (valueChanged)="updateEstimatedRepairCost($event)"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
+                    </text-field>
+                </div>
+                <div class="col-md-4">
+                    <text-field
+                        [formGroup]="cost_of_purchase_form"
+                        [controlName]="'repair_roof'" 
+                        [controlLabel]="'Roof'"
+                        (valueChanged)="updateEstimatedRepairCost($event)"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
+                    </text-field>
+                </div>
+                <div class="col-md-4">
+                    <text-field
+                        [formGroup]="cost_of_purchase_form"
+                        [controlName]="'repair_ac'" 
+                        [controlLabel]="'HVAC'"
+                        (valueChanged)="updateEstimatedRepairCost($event)"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
+                    </text-field>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <text-field
+                        [formGroup]="cost_of_purchase_form"
+                        [controlName]="'loan_point_cost'" 
+                        [controlLabel]="'Cost of loan points'"
+                        [icon]="'$'" [disable]=true [placeholder]=0 [val]="loan_point_cost">
+                    </text-field>
+                </div>
             </div>
         </div>
     </section>

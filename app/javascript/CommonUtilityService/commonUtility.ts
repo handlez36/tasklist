@@ -22,4 +22,15 @@ export class CommonUtilityService {
         }
     }
 
+    getIntFor(details, key) {
+        
+        if(details[key]) {
+            return typeof details[key] == "string" ?
+                parseInt( details[key].replace(",","") ) :
+                details[key]
+        } else {
+            return 0;
+        }
+    }
+
 }

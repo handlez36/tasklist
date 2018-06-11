@@ -19,7 +19,7 @@
                         [formGroup]="property_inputs"
                         [controlName]="'vacancy_rate_cost'" 
                         [controlLabel]="'Vacancy and Credit Loss ($)'"
-                        [icon]="'$'" [disable]=true [placeholder]=0 [val]="0.00">
+                        [icon]="'$'" [disable]=true [placeholder]=0 [val]="vacancy_cost">
                     </text-field>
                 </div>
             </div>
@@ -30,6 +30,7 @@
                         [formGroup]="property_inputs"
                         [controlName]="'repair_perc'" 
                         [controlLabel]="'Repair (%)'"
+                        (valueChanged)="updateRepairCost($event)"
                         [icon]="'%'" [disable]=false [placeholder]=0 [val]="0.00">
                     </text-field>
                 </div>
@@ -38,7 +39,7 @@
                         [formGroup]="property_inputs"
                         [controlName]="'repair_cost'" 
                         [controlLabel]="'Repair ($)'"
-                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="repair_cost">
                     </text-field>
                 </div>
             </div>

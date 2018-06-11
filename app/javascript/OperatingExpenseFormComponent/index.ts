@@ -1,3 +1,5 @@
+import { CommonUtilityService } from './../CommonUtilityService/commonUtility';
+import { CommonDataService } from './../CommonDataService/commonData';
 import { Component, OnInit, Inject } from '@angular/core';
 import template from "./template.html";
 import { FormGroup, FormBuilder } from '@angular/forms';
@@ -7,30 +9,46 @@ import { FormGroup, FormBuilder } from '@angular/forms';
     template: template
 })
 export class OperatingExpenseFormComponent implements OnInit {
-    public testValue: number = 100;
-    private property_inputs: FormGroup;
+    private property_inputs:    FormGroup;
+    private mortgageDetails:    number;
 
-    constructor(@Inject(FormBuilder) private fb, ) {}
+    private vacancy_cost:       number;
+    private repair_cost:        number;
 
-    ngOnInit() {
-        this.property_inputs = this.fb.group({
-            vacancy_rate_perc:  ["0.00"],
-            vacancy_rate_cost:  ["0"],
-            repair_perc:        ["0"],
-            repair_cost:        ["0.00"],
-            large_item_repairs: ["0.00"],
-            water_utility:      ["0.00"],
-            garbage_utility:      ["0.00"],
-            gas_utility:      ["0.00"],
-            electricity_utility:      ["0.00"],
-            hoa:      ["0.00"],
-            maintenance:      ["0.00"],
-            property_management:    ["0.00"],
-            other:                  ["0.00"]
-        })       
+    constructor(
+        @Inject(FormBuilder) private fb, 
+        @Inject(CommonDataService) private commonData,
+        @Inject(CommonUtilityService) private utilities) {
+        this.vacancy_cost = 0.00;
+        this.repair_cost = 0.00;
     }
 
-    updatedVacancyCost(event) {
+    ngOnInit() {
+        this.property_inputs = this.fb.group({ })
+
+        this.commonData.numbers
+            .subscribe( data => {
+                this.mortgageDetails = data;
+            })
+    }
+
+    updatedVacancyCost(data) {
         console.log("OperatingExpenseFormComponent#updatedVacancyCost");
+
+        let purchase_month          = this.utilities.getIntFor(this.mortgageDetails, "purchase_month");
+        let monthly_rent            = this.utilities.getFloatFor(this.mortgageDetails, "monthly_rent");
+        let gross_scheduled_income  = monthly_rent * (12 - purchase_month);
+
+        this.vacancy_cost = gross_scheduled_income * (data/100);
+    }
+
+    updateRepairCost(data) {
+        console.log("OperatingExpenseFormComponent#updateRepairCost");
+
+        let repair_perc             = this.utilities.getFloatFor( this.mortgageDetails, "repair_perc");
+        let monthly_rent            = this.utilities.getFloatFor(this.mortgageDetails, "monthly_rent");
+
+        this.repair_cost            = monthly_rent * (data/100);
+        console.log("Repair Cost: ", this.repair_cost);
     }
 }
