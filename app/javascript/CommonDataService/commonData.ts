@@ -5,6 +5,7 @@ import "rxjs/add/observable/of";
 @Injectable()
 export class CommonDataService {
     numbers: BehaviorSubject<object> = new BehaviorSubject<object>({
+        keyChanged: '',
         price: 0.0,
         dp: 0.0,
         monthly_payment: 0.0,
@@ -33,12 +34,9 @@ export class CommonDataService {
 
     updatePropertyNumbers(updatedField) {
         console.log("CommonDataService#updatePropertyNumbers");
-        console.log("Field key: ", updatedField);
 
-        this.numbers[updatedField.key] = updatedField.value;
-
-        // debugger;
-        console.log("Updated numbers: ", this.numbers);
+        this.numbers[updatedField.key]  = updatedField.value;
+        this.numbers['keyChanged']      = updatedField.key; 
         this.numbers.next(this.numbers);
     }
 
