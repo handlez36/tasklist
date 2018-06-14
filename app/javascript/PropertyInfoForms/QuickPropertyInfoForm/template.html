@@ -10,7 +10,7 @@
                         [formGroup]="property_inputs"
                         [controlName]="'prop_info_price'" 
                         [controlLabel]="'Purchase Price (from buyer)'"
-                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="mortgageDetails.price">
+                        [icon]="'$'" [disable]=true [placeholder]=0 [val]="price">
                     </text-field>
                 </div>
             </div>
@@ -20,7 +20,7 @@
                         [formGroup]="property_inputs"
                         [controlName]="'monthly_rent'" 
                         [controlLabel]="'Estimated Monthly Rent'"
-                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="rent">
                     </text-field>
                 </div>
             </div>
@@ -31,7 +31,7 @@
                         [controlName]="'property_size'" 
                         [controlLabel]="'Property Size'"
                         [transform]=false
-                        [icon]="'sq ft'" [disable]=false [placeholder]=0 [val]="0">
+                        [icon]="'sq ft'" [disable]=false [placeholder]=0 [val]="size">
                     </text-field>
                 </div>
             </div>

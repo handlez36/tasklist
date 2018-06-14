@@ -9,7 +9,8 @@ export class CommonDataService {
         price: 0.0,
         dp: 0.0,
         monthly_payment: 0.0,
-        mortgage_term: 0,
+        mortgage_term: 30,
+        interest_rate: 5,
         property_size: 0,
         monthly_rent: 0.0
     });
@@ -34,10 +35,10 @@ export class CommonDataService {
 
     updatePropertyNumbers(updatedField) {
         console.log("CommonDataService#updatePropertyNumbers");
-
-        this.numbers[updatedField.key]  = updatedField.value;
-        this.numbers['keyChanged']      = updatedField.key; 
-        this.numbers.next(this.numbers);
+        
+        this.numbers.value[updatedField.key]  = updatedField.value;
+        this.numbers.value['keyChanged']      = updatedField.key; 
+        this.numbers.next(this.numbers.value);
     }
 
 }

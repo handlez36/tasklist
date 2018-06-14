@@ -1,0 +1,93 @@
+<article class="panel panel-default col-md-6" class="pull-left" id="apod-section">
+    <header class="panel-heading">
+        <h2>APOD</h2>
+    </header>
+    <section class="panel-body">
+        <table class="table table-striped">
+            <thead>
+                <th scope="col">Metric</th>
+                <th scope="col" *ngFor="let year of years">Year {{ year + 1 }}</th>
+            </thead>
+            <tbody>
+                <tr>
+                    <th scope="row">Gross Scheduled Income</th>
+                    <td class="gsi" *ngFor="let gsi of grossScheduledIncome">$ {{ gsi }}</td>
+                </tr>
+                <tr class="expense">
+                    <th scope="row"> - Vacancy and Credit Loss</th>
+                    <td *ngFor="let vrc of vacancyRateCost"> - $ {{ vrc }}</td>
+                </tr>
+
+                <!-- <tr>
+                    <th scope="row">Gross Operating Income</th>
+                    <td>$ {{ grossOperatingIncome }}</td>
+                </tr>
+                <tr class="table-primary expense" *ngIf="totalOperatingExpenses > 0.00">
+                    <th scope="row">Total Operating Expenses</th>
+                    <td>- $ {{ totalOperatingExpenses }}</td>
+                </tr>
+
+                <tr *ngIf="yearlyRepairBudget > 0.00">
+                    <th class="operating_expense" scope="row">Repair Budget</th>
+                    <td>- $ {{ yearlyRepairBudget }}</td>
+                </tr>
+                <tr *ngIf="yearlyCapExBudget > 0.00">
+                    <th class="operating_expense" scope="row">Large Item Repair Budget</th>
+                    <td>- $ {{ yearlyCapExBudget }}</td>
+                </tr>
+                <tr *ngIf="yearlyWater > 0.00">
+                    <th class="operating_expense" scope="row">Utilities - Water Bill</th>
+                    <td>- $ {{ yearlyWater }}</td>
+                </tr>
+                <tr *ngIf="yearlyGarbage > 0.00">
+                    <th class="operating_expense" scope="row">Utilities - Garbage Bill</th>
+                    <td>- $ {{ yearlyGarbage }}</td>
+                </tr>
+                <tr *ngIf="yearlyGas > 0.00">
+                    <th class="operating_expense" scope="row">Utilities - Gas Bill</th>
+                    <td>- $ {{ yearlyGas }}</td>
+                </tr>
+                <tr *ngIf="yearlyElectricity > 0.00">
+                    <th class="operating_expense" scope="row">Utilities - Electricity</th>
+                    <td>- $ {{ yearlyElectricity }}</td>
+                </tr>
+                <tr *ngIf="yearlyHoa > 0.00"> 
+                    <th class="operating_expense" scope="row">HOA</th>
+                    <td>- $ {{ yearlyHoa }}</td>
+                </tr>
+                <tr *ngIf="yearlyMaintenance > 0.00">
+                    <th class="operating_expense" scope="row">Maintenance (i.e., lawn care)</th>
+                    <td>- $ {{ yearlyMaintenance }}</td>
+                </tr>
+                <tr *ngIf="yearlyPropTaxes > 0.00">
+                    <th class="operating_expense" scope="row">Property Taxes</th>
+                    <td>- $ {{ yearlyPropTaxes }}</td>
+                </tr>
+                <tr *ngIf="yearlyPropInsurance > 0.00">
+                    <th class="operating_expense" scope="row">Property Insurance</th>
+                    <td>- $ {{ yearlyPropInsurance }}</td>
+                </tr>
+                <tr *ngIf="yearlyPropManagement > 0.00">
+                    <th class="operating_expense" scope="row">Property Management</th>
+                    <td>- $ {{ yearlyPropManagement }}</td>
+                </tr>
+                <tr *ngIf="yearlyOther > 0.00">
+                    <th class="operating_expense" scope="row">Other</th>
+                    <td>- $ {{ yearlyOther }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Net Operating Income</th>
+                    <td>$ {{ netOperatingIncome }}</td>
+                </tr>
+                <tr class="expense">
+                    <th scope="row">Annual Debt Service</th>
+                    <td>- $ {{ annualDebtService }}</td>
+                </tr>
+                <tr>
+                    <th scope="row">Cash Flow (Before Taxes)</th>
+                    <td>$ {{ cashFlowBeforeTaxes }}</td>
+                </tr> -->
+            </tbody>
+        </table>
+    </section>
+</article>

@@ -10,7 +10,6 @@
                         [formGroup]="property_inputs"
                         [controlName]="'vacancy_rate_perc'" 
                         [controlLabel]="'Vacancy and Credit Loss (%)'"
-                        (valueChanged)="updatedVacancyCost($event)"
                         [icon]="'%'" [disable]=false [placeholder]=0 [val]="0">
                     </text-field>
                 </div>
@@ -30,7 +29,6 @@
                         [formGroup]="property_inputs"
                         [controlName]="'repair_perc'" 
                         [controlLabel]="'Repair (%)'"
-                        (valueChanged)="updateRepairCost($event)"
                         [icon]="'%'" [disable]=false [placeholder]=0 [val]="0.00">
                     </text-field>
                 </div>
@@ -45,12 +43,20 @@
             </div>
             <br />
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <text-field
                         [formGroup]="property_inputs"
-                        [controlName]="'large_item_repairs'" 
-                        [controlLabel]="'Large item repairs (%)'"
-                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
+                        [controlName]="'large_item_repairs_perc'" 
+                        [controlLabel]="'Large item repair percentage (%)'"
+                        [icon]="'%'" [disable]=false [placeholder]=0 [val]="0.00">
+                    </text-field>
+                </div>
+                <div class="col-md-6">
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'large_item_repairs_cost'" 
+                        [controlLabel]="'Large item repair cost ($)'"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="large_repair_cost">
                     </text-field>
                 </div>
             </div>
@@ -82,6 +88,7 @@
                     </text-field>
                 </div>
             </div>
+            <br />
             <div class="row">
                 <div class="col-md-4">
                     <text-field
@@ -108,7 +115,24 @@
                     </text-field>
                 </div>
             </div>
+            <br />
             <div class="row">
+                <div class="col-md-4">
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'property_taxes'" 
+                        [controlLabel]="'Property Taxes'"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
+                    </text-field>
+                </div>
+                <div class="col-md-4">
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'property_insurance'" 
+                        [controlLabel]="'Property Insurance'"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
+                    </text-field>
+                </div>
                 <div class="col-md-4">
                     <text-field
                         [formGroup]="property_inputs"
@@ -117,7 +141,10 @@
                         [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
                     </text-field>
                 </div>
-                <div class="col-md-4">
+            </div>
+            <br />
+            <div class="row">
+                <div class="col-md-12">
                     <text-field
                         [formGroup]="property_inputs"
                         [controlName]="'other'" 

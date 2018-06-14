@@ -29,7 +29,7 @@
                         [formGroup]="property_inputs"
                         [controlName]="'down_payment'" 
                         [controlLabel]="'Down Payment'"
-                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="dp">
                     </text-field>
                 </div>
                 <div class="col-md-3">
@@ -38,7 +38,7 @@
                         [controlName]="'mortgage_term'" 
                         [controlLabel]="'Term (years)'"
                         [transform]=false
-                        [disable]=false [placeholder]=0 [val]="30">
+                        [disable]=false [placeholder]=0 [val]="term">
                     </text-field>   
                 </div>
                 <div class="col-md-3">
@@ -46,7 +46,7 @@
                         [formGroup]="property_inputs"
                         [controlName]="'interest_rate'" 
                         [controlLabel]="'Interest Rate'"
-                        [icon]="'%'" [disable]=false [placeholder]=0 [val]="0">
+                        [icon]="'%'" [disable]=false [placeholder]=0 [val]="rate">
                     </text-field>
                 </div>
                 <div class="col-md-2">
@@ -60,13 +60,27 @@
                 </div>
             </div>
             <br />
-        </div>
-    </section>
-    <section class="panel-body">
-        <div style="margin-top: 20px">
-            Monthly mortgage payment: ${{ monthly_payment }} <br />
-            Length of mortgage      : {{ formControls().mortgage_term * 12 }} months <br />
-            Total interest          : ${{ total_interest }}
+            <div class="row">
+                <div class="col-md-6">
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'monthly_payment'" 
+                        [controlLabel]="'Monthly Mortgage Payments'"
+                        [transform]=true
+                        [icon]="'$'" [disable]=true [placeholder]=0 [val]="monthly_payment">
+                    </text-field>
+                </div>
+                <div class="col-md-6">
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'total_interest'" 
+                        [controlLabel]="'Total Interest'"
+                        [transform]=true
+                        [icon]="'$'" [disable]=true [placeholder]=0 [val]="total_interest">
+                    </text-field>
+                </div>
+            </div>
+            <br />
         </div>
     </section>
 </article>

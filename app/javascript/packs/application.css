@@ -15,7 +15,7 @@
     /* text-align: center; */
 }
 
-#mortgage-section, #property-section, #operating-expense-section, #cost-of-purchase-section {
+#mortgage-section, #property-section, #operating-expense-section, #cost-of-purchase-section, #apod-section {
     border: 1px solid black;
     border-radius: 20px;
     padding: 10px;
@@ -24,16 +24,30 @@
     font-size: 11px;
 }
 
-#property-section, #cost-of-purchase-section {
+#property-section, #cost-of-purchase-section, #apod-section {
     margin-right: 150px;
     width: 475px;
     max-width: 475px;
+}
+
+#cost-of-purchase-section {
+    height: 536px;
+}
+
+#mortgage-section {
+    height: 325px;
 }
 
 .small-input {
     max-width: 100px;
 }
 
-/* .row {
-    margin-left: 0px !important;
-} */
+.expense {
+    color: red !important;
+    font-style: italic;
+}
+
+.operating_expense {
+    padding-left: 30px !important;
+    font-style: italic;
+}

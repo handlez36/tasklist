@@ -1,3 +1,4 @@
+import { APODComponent } from './../AssessmentComponents/PointInTimeAssessments/index';
 import { SelectFieldComponent } from './../SelectFieldComponent/index';
 import { TextFieldComponent } from './../TextFieldComponent/index';
 import { OperatingExpenseFormComponent } from './../OperatingExpenseFormComponent/index';
@@ -45,7 +46,8 @@ class AppComponent { }
     PropertyCostFormComponent,
     OperatingExpenseFormComponent,
     TextFieldComponent,
-    SelectFieldComponent
+    SelectFieldComponent,
+    APODComponent
   ],
   imports: [
     BrowserModule,

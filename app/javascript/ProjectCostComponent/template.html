@@ -1,4 +1,4 @@
-<article class="panel panel-default col-md-6" class="pull-left" id="cost-of-purchase-section">
+<article class="panel panel-default col-md-6" class="pull-left" id="cost-of-purchase-section" style="height:536px">
     <header class="panel-heading">
         <h2>Cost of Purchase</h2>
     </header>
@@ -18,9 +18,10 @@
                         [formGroup]="cost_of_purchase_form"
                         [controlName]="'closing_cost_perc'" 
                         [controlLabel]="'Percentage of price'"
-                        (valueChanged)="updateClosingCosts($event)"
+                        
                         [icon]="'%'" [disable]=false [placeholder]=0 [val]="closing_cost_perc">
                     </text-field>
+                    <!-- (valueChanged)="updateClosingCosts($event)" -->
                 </div>
             </div>
             <br />

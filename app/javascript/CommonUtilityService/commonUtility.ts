@@ -11,26 +11,24 @@ export class CommonUtilityService {
         return accounting.formatMoney(number).replace("$","");
     }
 
-    getFloatFor(details, key) {
-        
-        if(details[key]) {
-            return typeof details[key] == "string" ?
-                parseFloat( details[key].replace(",","") ) :
-                details[key]
-        } else {
-            return 0;
-        }
+    getFloatFor(value) {
+        // if(details[key]) {
+        return (typeof value == "string" ?
+            parseFloat( value.replace(",","") ) :
+            value) || 0.00;
+        // } else {
+        //     return 0;
+        // }
     }
 
-    getIntFor(details, key) {
-        
-        if(details[key]) {
-            return typeof details[key] == "string" ?
-                parseInt( details[key].replace(",","") ) :
-                details[key]
-        } else {
-            return 0;
-        }
+    getIntFor(value) {
+        // if(value) {
+            return (typeof value == "string" ?
+                parseInt( value.replace(",","") ) :
+                value) || 0;
+        // } else {
+        //     return 0;
+        // }
     }
 
 }

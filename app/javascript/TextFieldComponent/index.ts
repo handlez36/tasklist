@@ -38,7 +38,8 @@ export class TextFieldComponent implements OnInit {
         this.indirectChangeFields = 
         [
             "repair_paint_carpet", "closing_cost", "pre_rent_holding_cost",
-            "loan_point_cost", "vacancy_rate_cost", "repair_cost"
+            "loan_point_cost", "vacancy_rate_cost", "repair_cost",
+            "monthly_payment", "total_interest", "prop_info_price", "price"
         ]
     }
 
@@ -59,15 +60,9 @@ export class TextFieldComponent implements OnInit {
     }
 
     indirectUpdate() {
-        // if (this.controlName == "repair_paint_carpet" || this.controlName == "closing_cost" || this.controlName == "pre_rent_holding_cost")
-        // if ( this.this.indirectChangeFields.indexOf(this.controlName) != -1 )
-        if (this.controlName == "loan_points") {
-            console.log("BEFORE IN HERE");
-        }
         if ( ( this.indirectChangeFields.indexOf(this.controlName) != -1 )
              && !this.infocus )
         {
-            console.log("IN HERE");
             setTimeout( () => {
                 this.updateInputFormat(true);
             }, 300 )
@@ -90,13 +85,14 @@ export class TextFieldComponent implements OnInit {
             current_val;
 
         if ( current_val != this.control_value ) {
+            
             this.control_value = parseFloat(("" + current_val).replace(",",""));
 
             if (this.transform) {
                 this.property_inputs.controls.control
                     .setValue( this.utilities.formatCurrencyToString(this.control_value) );
             }
-        
+                      
             if (this.persist) {
                 this.updateCommonData();
             }

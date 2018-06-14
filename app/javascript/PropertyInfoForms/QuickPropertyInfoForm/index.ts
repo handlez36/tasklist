@@ -13,16 +13,18 @@ import { Form, FormControl, Validators, FormGroup, FormBuilder } from '@angular/
     template: template
 })
 export class QuickPropertyInfoFormComponent implements OnInit {
-    private mortgageDetails: object;
+    private mortgageDetails: any;
     private property_inputs: FormGroup;
 
-    private price: number;
-    private rent: number;
-    private size: number;
+    private price: number           = 0.0;
+    private rent: number            = 0.0;
+    private size: number            = 0.0;
 
     private month_names: any;
-    private month_vals:     any;
+    private month_vals: any;
     private years: any;
+
+    private calculation_dependencies: any;
 
     constructor(
         @Inject(FormBuilder) private fb, 
@@ -47,46 +49,30 @@ export class QuickPropertyInfoFormComponent implements OnInit {
         [
             2018, 2019, 2020, 2021, 2022, 2023, 2024
         ]
+
+        this.calculation_dependencies =
+        {
+            price: ['price']
+        }
     }
 
     ngOnInit() {
-        var decRequirement: RegExp = new RegExp('[\\d\\.]+');
-        var numRequirement: RegExp = new RegExp('[\\d\\.]+');
         
-        this.property_inputs = this.fb.group({
-            asking_price:       ["0.00", Validators.pattern(decRequirement) ],
-            monthly_rent:       ["0.00", Validators.pattern(decRequirement) ],
-            property_size:      ["0", Validators.pattern(decRequirement) ],
-            purchase_month:     [0],
-            purchase_year:      [2018]
-        });
+        this.property_inputs = this.fb.group({});
 
         this.commonData.numbers
-        .subscribe( data => {
-            data.price = this.utilities.formatCurrencyToString(data.price);
-            data.dp = this.utilities.formatCurrencyToString(data.dp);
-            data.monthly_payment = this.utilities.formatCurrencyToString(data.monthly_payment);
+            .subscribe( data => {
+                this.mortgageDetails = data;
 
-            this.mortgageDetails = data;
-        });
+                this.updatePrice();
+            });
     }
 
-    formControls() {
-        return this.property_inputs.value;
-    }
-
-    updateInputFormat() {
-        this.price   = parseFloat( this.formControls().asking_price.replace(",","") )  || 0;
-        this.rent      = parseFloat( this.formControls().monthly_rent.replace(",","") )    || 0;
-        this.size    = parseInt ( this.formControls().property_size )    || 0;
-
-        this.property_inputs.controls.asking_price.setValue(this.utilities.formatCurrencyToString(this.price));
-        this.property_inputs.controls.monthly_rent.setValue(this.utilities.formatCurrencyToString(this.rent));
-
-        this.commonData.updatePropertyNumbers({
-            price:              this.price,
-            monthly_rent:      this.rent,
-            property_size:      this.size
-        });
+    updatePrice() {
+        if( this.calculation_dependencies['price'].indexOf(this.mortgageDetails.keyChanged) != -1 ) {
+            if (this.price != this.utilities.getFloatFor(this.mortgageDetails.price)) {
+                this.price = this.utilities.getFloatFor(this.mortgageDetails.price);
+            }
+        }
     }
 }

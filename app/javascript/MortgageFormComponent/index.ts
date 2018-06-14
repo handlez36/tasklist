@@ -1,10 +1,11 @@
+import { platformBrowserDynamic } from '@angular/platform-browser-dynamic';
 import { CommonDataService } from './../CommonDataService/commonData';
 import { Component, OnInit, Inject } from '@angular/core';
 import { Http } from '@angular/http';
 import template from "./template.html";
 import * as amortization from 'amortization';
 import * as accounting from 'accounting';
-import { Form, FormBuilder, FormControl, Validators, FormGroup } from '@angular/forms';
+import { Form, FormBuilder, FormControl, Validators, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonUtilityService } from '../CommonUtilityService/commonUtility';
 
 @Component({
@@ -15,14 +16,19 @@ export class MortgageFormComponent implements OnInit {
     private property_inputs: FormGroup;
     private mortgageDetails: any;
 
-    private ask: any        = 0.0;
-    private price: any      = 0.0;
-    private dp: any         = 0.0;
-    private term: any       = 30;
-    private rate: any       = 5.0;
+    private ask: any                = 0.0;
+    private price: any              = 0.0;
+    private dp: any                 = 0.0;
+    private term: any               = 30;
+    private rate: any               = 5.0;
+    private monthly_payment: any    = 0.0;
+    private total_interest: any     = 0.0;
 
-    private monthly_payment: string;
-    private total_interest: string;ang
+    private calculation_dependencies =
+    {
+        price:          ['prop_info_price'],
+        mortgage:       ['price', 'down_payment', 'mortgage_term', 'interest_rate', 'loan_points']
+    }
 
     constructor(
         @Inject(Http) private http, 
@@ -34,68 +40,41 @@ export class MortgageFormComponent implements OnInit {
     }
 
     ngOnInit() {
-        var decRequirement: RegExp = new RegExp('[\\d\\.]+');
-        var numRequirement: RegExp = new RegExp('[\\d\\.]+');
-        
-        this.property_inputs = this.fb.group({
-            asking_price:       ["0.00", Validators.pattern(decRequirement) ],
-            purchase_price:     ["0.00", Validators.pattern(decRequirement) ],
-            down_payment:       ["0.00", Validators.pattern(decRequirement) ],
-            mortgage_term:      ["30", Validators.pattern(numRequirement) ],
-            interest_rate:      ["5.0", Validators.pattern(decRequirement) ]
-        });
+        this.property_inputs = this.fb.group({});
 
         this.commonData.numbers
             .subscribe( data => {
-                this.price = this.utilities.formatCurrencyToString(data.price);
                 this.mortgageDetails = data;
-                this.updateMortgage(false);
-                
-                console.log("Data: ", data);
+
+                this.updatePrice();
+                this.updateMortgage();
             });
     }
 
-    formControls() {
-        return this.property_inputs.value;
-    }
-
-    updateInputFormat() {
-        this.ask     = parseFloat( this.formControls().asking_price.replace(",","") )    || 0
-        this.price   = parseFloat( this.formControls().purchase_price.replace(",","") )  || 0;
-        this.dp      = parseFloat( this.formControls().down_payment.replace(",","") )    || 0;
-        this.term    = parseInt ( this.formControls().mortgage_term )    || 30;
-        this.rate    = parseFloat( this.formControls().interest_rate )   || 0;
-
-        this.property_inputs.controls.asking_price.setValue(this.utilities.formatCurrencyToString(this.ask));
-        this.property_inputs.controls.purchase_price.setValue(this.utilities.formatCurrencyToString(this.price));
-        this.property_inputs.controls.down_payment.setValue(this.utilities.formatCurrencyToString(this.dp));
-
-        this.updateMortgage();
-    }
-
-    updateMortgage(updateCommonData = true) {
-        console.log("MortgageFormComponent#updateMortgage");
-        let tempPrice = 0;
-
-        tempPrice = typeof this.price == "string" ?
-            parseFloat(this.price.replace(",","")) :
-            this.price
-
-        let loan_point_cost = this.utilities.getFloatFor(this.mortgageDetails, "loan_point_cost") || 0.00;
-
-        if (tempPrice > 0) {            
-            let amortized_schedule = amortization.amortizationSchedule( tempPrice - this.dp - loan_point_cost, this.term, this.rate );
-            this.monthly_payment = this.utilities.formatCurrencyToString(amortized_schedule[0].payment);
-            this.total_interest = this.utilities.formatCurrencyToString(amortized_schedule.reduce( (total, amt) => total + amt.interestPayment, 0.0 ));
+    updatePrice() {
+        if( this.calculation_dependencies['price'].indexOf(this.mortgageDetails.keyChanged) != -1 ) {
+            if (this.price != this.utilities.getFloatFor(this.mortgageDetails.prop_info_price)) {
+                this.price = this.utilities.getFloatFor(this.mortgageDetails.prop_info_price);
+            }
         }
+    }
 
-        if(updateCommonData) {
-            this.commonData.updatePropertyNumbers({
-                price:              tempPrice,
-                dp:                 this.dp,
-                monthly_payment:    this.monthly_payment,
-                mortgage_term:      this.term
-            });
+    updateMortgage() {
+        console.log("MortgageFormComponent#updateMortgage");
+
+        if( this.calculation_dependencies['mortgage'].indexOf(this.mortgageDetails.keyChanged) != -1 ) {
+            let temp_price          = this.utilities.getFloatFor(this.mortgageDetails.price);
+            let dp                  = this.utilities.getFloatFor(this.mortgageDetails.down_payment);
+            let loan_points         = this.utilities.getFloatFor(this.mortgageDetails.loan_points);
+            let term                = this.utilities.getFloatFor(this.mortgageDetails.mortgage_term);
+            let rate                = this.utilities.getFloatFor(this.mortgageDetails.interest_rate);
+            let loan_point_cost     = temp_price * (loan_points / 100);
+            
+            if (temp_price > 0) {
+                let amortized_schedule  = amortization.amortizationSchedule( temp_price - dp - loan_point_cost, term, rate );
+                this.monthly_payment    = amortized_schedule[0].payment;
+                this.total_interest     = amortized_schedule.reduce( (total, amt) => total + amt.interestPayment, 0.0 )
+            }
         }
     }    
 }
