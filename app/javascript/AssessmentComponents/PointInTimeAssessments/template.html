@@ -1,6 +1,16 @@
-<article class="panel panel-default col-md-6" class="pull-left" id="apod-section">
+<article class="panel panel-default col-md-12" class="pull-left" id="apod-section">
     <header class="panel-heading">
-        <h2>APOD</h2>
+        <div class="row">
+            <div class="col-md-2"><h2>APOD</h2></div>
+            <div class="col-md-10">
+                <div class="row">
+                    <div class="col-md-3">2% Test<br />Passed</div>
+                    <div class="col-md-3">Cash on Cash ROI:<br />{{ cashOnCashROI  }}</div>
+                    <div class="col-md-3">Internal Rate Return:<br />9%</div>
+                    <div class="col-md-3"></div>
+                </div>
+            </div>
+        </div>
     </header>
     <section class="panel-body">
         <table class="table table-striped">
@@ -17,76 +27,74 @@
                     <th scope="row"> - Vacancy and Credit Loss</th>
                     <td *ngFor="let vrc of vacancyRateCost"> - $ {{ vrc }}</td>
                 </tr>
-
-                <!-- <tr>
+                <tr>
                     <th scope="row">Gross Operating Income</th>
-                    <td>$ {{ grossOperatingIncome }}</td>
+                    <td *ngFor="let goi of grossOperatingIncome">$ {{ goi }}</td>
                 </tr>
-                <tr class="table-primary expense" *ngIf="totalOperatingExpenses > 0.00">
+                <tr class="table-primary expense" *ngIf="hasOperatingExpenseFor(totalOperatingExpenses)">
                     <th scope="row">Total Operating Expenses</th>
-                    <td>- $ {{ totalOperatingExpenses }}</td>
+                    <td *ngFor="let toi of totalOperatingExpenses">- $ {{ toi }}</td>
                 </tr>
-
-                <tr *ngIf="yearlyRepairBudget > 0.00">
+                <tr *ngIf="hasOperatingExpenseFor(yearlyRepairBudget)">
                     <th class="operating_expense" scope="row">Repair Budget</th>
-                    <td>- $ {{ yearlyRepairBudget }}</td>
+                    <td *ngFor="let yrb of yearlyRepairBudget">- $ {{ yrb }}</td>
                 </tr>
-                <tr *ngIf="yearlyCapExBudget > 0.00">
+                <tr *ngIf="hasOperatingExpenseFor(yearlyCapExBudget)">
                     <th class="operating_expense" scope="row">Large Item Repair Budget</th>
-                    <td>- $ {{ yearlyCapExBudget }}</td>
+                    <td *ngFor="let ycb of yearlyCapExBudget">- $ {{ ycb }}</td>
                 </tr>
-                <tr *ngIf="yearlyWater > 0.00">
+                <tr *ngIf="hasOperatingExpenseFor(yearlyWater)">
                     <th class="operating_expense" scope="row">Utilities - Water Bill</th>
-                    <td>- $ {{ yearlyWater }}</td>
+                    <td *ngFor="let yw of yearlyWater">- $ {{ yw }}</td>
                 </tr>
-                <tr *ngIf="yearlyGarbage > 0.00">
+                <tr *ngIf="hasOperatingExpenseFor(yearlyGarbage)">
                     <th class="operating_expense" scope="row">Utilities - Garbage Bill</th>
-                    <td>- $ {{ yearlyGarbage }}</td>
+                    <td *ngFor="let yg of yearlyGarbage">- $ {{ yg }}</td>
                 </tr>
-                <tr *ngIf="yearlyGas > 0.00">
+                <tr *ngIf="hasOperatingExpenseFor(yearlyGas)">
                     <th class="operating_expense" scope="row">Utilities - Gas Bill</th>
-                    <td>- $ {{ yearlyGas }}</td>
+                    <td *ngFor="let yGas of yearlyGas">- $ {{ yGas }}</td>
                 </tr>
-                <tr *ngIf="yearlyElectricity > 0.00">
+                <tr *ngIf="hasOperatingExpenseFor(yearlyElectricity)">
                     <th class="operating_expense" scope="row">Utilities - Electricity</th>
-                    <td>- $ {{ yearlyElectricity }}</td>
+                    <td *ngFor="let ye of yearlyElectricity">- $ {{ ye }}</td>
                 </tr>
-                <tr *ngIf="yearlyHoa > 0.00"> 
+                <tr *ngIf="hasOperatingExpenseFor(yearlyHoa)"> 
                     <th class="operating_expense" scope="row">HOA</th>
-                    <td>- $ {{ yearlyHoa }}</td>
+                    <td *ngFor="let yh of yearlyHoa">- $ {{ yh }}</td>
                 </tr>
-                <tr *ngIf="yearlyMaintenance > 0.00">
+                <tr *ngIf="hasOperatingExpenseFor(yearlyMaintenance)">
                     <th class="operating_expense" scope="row">Maintenance (i.e., lawn care)</th>
-                    <td>- $ {{ yearlyMaintenance }}</td>
+                    <td *ngFor="let ym of yearlyMaintenance">- $ {{ ym }}</td>
                 </tr>
-                <tr *ngIf="yearlyPropTaxes > 0.00">
+                <tr *ngIf="hasOperatingExpenseFor(yearlyPropTaxes)">
                     <th class="operating_expense" scope="row">Property Taxes</th>
-                    <td>- $ {{ yearlyPropTaxes }}</td>
+                    <td *ngFor="let ypt of yearlyPropTaxes">- $ {{ ypt }}</td>
                 </tr>
-                <tr *ngIf="yearlyPropInsurance > 0.00">
+                <tr *ngIf="hasOperatingExpenseFor(yearlyPropInsurance)">
                     <th class="operating_expense" scope="row">Property Insurance</th>
-                    <td>- $ {{ yearlyPropInsurance }}</td>
+                    <td *ngFor="let ypi of yearlyPropInsurance">- $ {{ ypi }}</td>
                 </tr>
-                <tr *ngIf="yearlyPropManagement > 0.00">
+                <tr *ngIf="hasOperatingExpenseFor(yearlyPropManagement)">
                     <th class="operating_expense" scope="row">Property Management</th>
-                    <td>- $ {{ yearlyPropManagement }}</td>
+                    <td *ngFor="let ypm of yearlyPropManagement">- $ {{ ypm }}</td>
                 </tr>
-                <tr *ngIf="yearlyOther > 0.00">
+                <tr *ngIf="hasOperatingExpenseFor(yearlyOther)">
                     <th class="operating_expense" scope="row">Other</th>
-                    <td>- $ {{ yearlyOther }}</td>
+                    <td *ngFor="let yo of yearlyOther">- $ {{ yo }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Net Operating Income</th>
-                    <td>$ {{ netOperatingIncome }}</td>
+                    <td *ngFor="let noi of netOperatingIncome">$ {{ noi }}</td>
                 </tr>
                 <tr class="expense">
-                    <th scope="row">Annual Debt Service</th>
-                    <td>- $ {{ annualDebtService }}</td>
+                    <th scope="row"> - Annual Debt Service</th>
+                    <td *ngFor="let ads of annualDebtService">- $ {{ ads }}</td>
                 </tr>
                 <tr>
                     <th scope="row">Cash Flow (Before Taxes)</th>
-                    <td>$ {{ cashFlowBeforeTaxes }}</td>
-                </tr> -->
+                    <td *ngFor="let cfbt of cashFlowBeforeTaxes">$ {{ cfbt }}</td>
+                </tr>
             </tbody>
         </table>
     </section>

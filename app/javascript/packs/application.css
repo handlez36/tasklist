@@ -24,10 +24,15 @@
     font-size: 11px;
 }
 
-#property-section, #cost-of-purchase-section, #apod-section {
+#property-section, #cost-of-purchase-section {
     margin-right: 150px;
     width: 475px;
     max-width: 475px;
+}
+
+#apod-section {
+    margin-right: 150px;
+    max-width: 100%;
 }
 
 #cost-of-purchase-section {

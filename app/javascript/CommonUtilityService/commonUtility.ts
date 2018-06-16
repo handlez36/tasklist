@@ -12,23 +12,19 @@ export class CommonUtilityService {
     }
 
     getFloatFor(value) {
-        // if(details[key]) {
         return (typeof value == "string" ?
             parseFloat( value.replace(",","") ) :
             value) || 0.00;
-        // } else {
-        //     return 0;
-        // }
     }
 
     getIntFor(value) {
-        // if(value) {
             return (typeof value == "string" ?
                 parseInt( value.replace(",","") ) :
                 value) || 0;
-        // } else {
-        //     return 0;
-        // }
+    }
+
+    calculateCOCROI(investedAmt, annualIncome) {
+        return ( investedAmt / annualIncome ) * 100;
     }
 
 }

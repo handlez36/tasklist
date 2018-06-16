@@ -12,7 +12,7 @@ export class APODComponent implements OnInit {
 
     private xPercentTestResult:         any;
 
-    private vacancyRateCost:            number;
+    private vacancyRateCost:            any = [];
     private yearlyRepairBudget:         any = [];
     private yearlyCapExBudget:          any = [];
     private yearlyWater:                any = [];
@@ -34,13 +34,14 @@ export class APODComponent implements OnInit {
     private cashFlowBeforeTaxes:        any = [];
     private cashFlowAfterTaxes:         any = [];
 
-    private debtCoverageRatio:          any = [];
+    private cashOnCashROI:              any;
+    private debtCoverageRatio:          any;
 
-    private annualExpenseIncrease:      any;
-    private annualIncomeIncrease:       any;
+    private annualExpenseIncrease:      any = 0;
+    private annualIncomeIncrease:       any = 0;
     private annualAppreciationIncrease: any = 2;
 
-    private analysis_years:             any = 1;
+    private analysis_years:             any = 10;
     private years:                      any = [];
 
     private calculation_dependencies:   any;
@@ -59,13 +60,19 @@ export class APODComponent implements OnInit {
             .subscribe( data => {
                 this.resetValues();
                 this.mortgageDetails = data;
-                for(let i=0; i < this.analysis_years; i++) {
-                    this.years.push(i);
-                    
+                for(let i=0; i < this.analysis_years; i++) {                    
+                    this.years[i] = i;
+                
                     this.updateGrossScheduledIncome(i);
+                    this.updateVacancyExpense(i);
                     this.updateGrossOperatingIncome(i);
+                    this.updateTotalOperatingExpenses(i);
                     this.updateNetOperatingIncome(i);
+                    this.updateAnnualDebtService(i);
                     this.updateCashFlowBeforeTaxes(i);
+
+                    this.updateCOCROI();
+                    
                 }
                 // updateCashFlowAfterTaxes();
 
@@ -84,30 +91,52 @@ export class APODComponent implements OnInit {
             months_remaining    = 12;
         }
 
-        this.grossScheduledIncome.push( monthly_rent * months_remaining );
+        this.grossScheduledIncome[year] = monthly_rent * months_remaining;
     }
 
     updateVacancyExpense(year) {
-        let vacancy_rate_perc = this.utilities.getFloatFor(this.mortgageDetails.vacancy_rate_perc);
-
+        this.vacancyRateCost[year] = this.utilities.getFloatFor(this.mortgageDetails.vacancy_rate_cost);
     }
 
     updateGrossOperatingIncome(year) {
-        this.vacancyRateCost = this.utilities.getFloatFor(this.mortgageDetails.vacancy_rate_cost);
+        this.grossOperatingIncome[year] = this.grossScheduledIncome[year] - this.vacancyRateCost[year];
+    }
 
-        this.grossOperatingIncome.push( this.grossScheduledIncome[year] - this.vacancyRateCost );
+    updateTotalOperatingExpenses(year) {
+        this.totalOperatingExpenses[year] = this.calculateOperatingExpenses(year);
     }
 
     updateNetOperatingIncome(year) {
-        this.totalOperatingExpenses.push( this.calculateOperatingExpenses(year) );
+        this.netOperatingIncome[year] = this.grossOperatingIncome[year] - this.totalOperatingExpenses[year];
+    }
 
-        this.netOperatingIncome.push( this.grossOperatingIncome[year] - this.totalOperatingExpenses[year] );
+    updateAnnualDebtService(year) {
+        this.annualDebtService[year] = this.calculateAnnualDebtService(year);
     }
 
     updateCashFlowBeforeTaxes(year) {
-        this.annualDebtService.push( this.calculateAnnualDebtService(year) );
+        this.cashFlowBeforeTaxes[year] = this.netOperatingIncome[year] - this.annualDebtService[year];
+    }
+
+    updateCOCROI() {
+        let totalCostOfInvestment = this.calculateTotalCostOfInvestment();
         
-        this.cashFlowBeforeTaxes.push( this.netOperatingIncome[year] - this.annualDebtService[year] );
+        this.cashOnCashROI = this.cashFlowBeforeTaxes[0] > 0 ?
+            ( this.cashFlowBeforeTaxes[0] / totalCostOfInvestment  ) * 100 :
+            0;
+        
+        console.log( "COCROI: ", this.cashOnCashROI);
+    }
+
+    calculateTotalCostOfInvestment() {
+        let down_payment    = this.utilities.getFloatFor( this.mortgageDetails.down_payment );
+        let loan_points     = this.utilities.getFloatFor( this.mortgageDetails.loan_point_cost );
+        let closing_cost    = this.utilities.getFloatFor( this.mortgageDetails.closing_cost );
+        let pre_rent_cost   = this.utilities.getFloatFor( this.mortgageDetails.pre_rent_holding_cost );
+        let total_repairs   = this.utilities.getFloatFor( this.mortgageDetails.estimated_repair_cost );
+
+        return down_payment + loan_points + closing_cost + pre_rent_cost + total_repairs;
+
     }
 
     calculateFutureValue(starting_amt, years, rate_of_increase) {
@@ -130,7 +159,7 @@ export class APODComponent implements OnInit {
         this.yearlyRepairBudget.push(
             this.calculateFutureValue(
                 this.utilities.getFloatFor(this.mortgageDetails.repair_cost), year, this.annualExpenseIncrease) * months_remaining);
-
+        
         this.yearlyCapExBudget.push(
             this.calculateFutureValue(
                 this.utilities.getFloatFor(this.mortgageDetails.large_item_repairs_cost), year, this.annualExpenseIncrease) * months_remaining);
@@ -187,6 +216,10 @@ export class APODComponent implements OnInit {
             + this.yearlyPropTaxes[year]
             + this.yearlyPropInsurance[year]
             + this.yearlyOther[year];
+    }
+
+    hasOperatingExpenseFor(expense) {
+        return expense.reduce( (total, amt) => total += amt ) > 0
     }
 
     resetValues() {

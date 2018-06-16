@@ -38,7 +38,7 @@ export class TextFieldComponent implements OnInit {
         this.indirectChangeFields = 
         [
             "repair_paint_carpet", "closing_cost", "pre_rent_holding_cost",
-            "loan_point_cost", "vacancy_rate_cost", "repair_cost",
+            "loan_point_cost", "vacancy_rate_cost", "estimated_repair_cost",
             "monthly_payment", "total_interest", "prop_info_price", "price"
         ]
     }
@@ -85,7 +85,6 @@ export class TextFieldComponent implements OnInit {
             current_val;
 
         if ( current_val != this.control_value ) {
-            
             this.control_value = parseFloat(("" + current_val).replace(",",""));
 
             if (this.transform) {
