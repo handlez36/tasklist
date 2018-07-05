@@ -15,6 +15,7 @@ export class OperatingExpenseFormComponent implements OnInit {
     private vacancy_cost:       number;
     private repair_cost:        number;
     private large_repair_cost:  number;
+    private property_management_cost:   number;
 
     private calculation_dependencies: any;
 
@@ -26,12 +27,14 @@ export class OperatingExpenseFormComponent implements OnInit {
         this.vacancy_cost               = 0.00;
         this.repair_cost                = 0.00;
         this.large_repair_cost          = 0.0;
+        this.property_management_cost   = 0.0;
 
         this.calculation_dependencies =
         {
             vacancy_cost:               ['vacancy_rate_perc','monthly_rent','purchase_month'],
             repair_cost:                ['repair_perc','monthly_rent'],
-            large_item_repair_cost:     ['monthly_rent', 'large_item_repairs_perc']
+            large_item_repair_cost:     ['monthly_rent', 'large_item_repairs_perc'],
+            property_management:        ['property_management_rate']
         }
     }
 
@@ -45,6 +48,7 @@ export class OperatingExpenseFormComponent implements OnInit {
                 this.updateVacancyCost();
                 this.updateRepairCost();
                 this.updateLargeRepairCost();
+                this.updatePropertyManagement();
             })
     }
 
@@ -82,5 +86,14 @@ export class OperatingExpenseFormComponent implements OnInit {
             this.large_repair_cost      = monthly_rent * (percentage/100);
             console.log("Cost: ", this.large_repair_cost);
         }
+    }
+
+    updatePropertyManagement() {
+        console.log("OperatingExpenseFormComponent#updatePropertyManagement");
+
+        let rate                        = this.utilities.getIntFor(this.mortgageDetails.property_management_rate);
+        let monthly_rent                = this.utilities.getFloatFor(this.mortgageDetails.monthly_rent);
+        
+        this.property_management_cost   = monthly_rent * (rate / 100);
     }
 }

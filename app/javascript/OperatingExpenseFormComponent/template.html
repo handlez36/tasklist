@@ -61,6 +61,25 @@
                 </div>
             </div>
             <br />
+            <div class="row">
+                <div class="col-md-6">
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'property_management_rate'" 
+                        [controlLabel]="'Property Management (%)'"
+                        [icon]="'%'" [disable]=false [placeholder]=0 [val]="0">
+                    </text-field>
+                </div>
+                <div class="col-md-6">
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'property_management'" 
+                        [controlLabel]="'Property Management ($)'"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="property_management_cost">
+                    </text-field>
+                </div>
+            </div>
+            <br />
             <h5>Utilities</h5>
             <div class="row">
                 <div class="col-md-4">
@@ -136,23 +155,13 @@
                 <div class="col-md-4">
                     <text-field
                         [formGroup]="property_inputs"
-                        [controlName]="'property_management'" 
-                        [controlLabel]="'Property Management'"
-                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
-                    </text-field>
-                </div>
-            </div>
-            <br />
-            <div class="row">
-                <div class="col-md-12">
-                    <text-field
-                        [formGroup]="property_inputs"
                         [controlName]="'other'" 
                         [controlLabel]="'Other'"
                         [icon]="'$'" [disable]=false [placeholder]=0 [val]="0.00">
                     </text-field>
                 </div>
             </div>
+            <br />
             <br style="clear:both" />
         </div>
     </section>

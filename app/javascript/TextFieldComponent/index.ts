@@ -39,7 +39,8 @@ export class TextFieldComponent implements OnInit {
         [
             "repair_paint_carpet", "closing_cost", "pre_rent_holding_cost",
             "loan_point_cost", "vacancy_rate_cost", "estimated_repair_cost",
-            "monthly_payment", "total_interest", "prop_info_price", "price"
+            "monthly_payment", "total_interest", "prop_info_price", "price",
+            "after_repair_value", "property_management"
         ]
     }
 

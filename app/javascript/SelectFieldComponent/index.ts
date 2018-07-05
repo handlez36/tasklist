@@ -32,12 +32,13 @@ export class SelectFieldComponent implements OnInit {
     }
 
     ngOnInit() {
-        console.log("SelectFieldComponent -- ", this.val);
         this.property_inputs = this.fb.group({
             control: [this.default || this.vals[0]]
         })
 
-        this.control_value = parseFloat(this.vals[0]);
+        this.control_value = typeof this.vals[0] == "string" ?
+            this.vals[0] :
+            parseFloat(this.vals[0]);
     }
 
     formControls() {

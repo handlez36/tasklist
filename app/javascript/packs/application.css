@@ -56,3 +56,12 @@
     padding-left: 30px !important;
     font-style: italic;
 }
+
+.apod-heading {
+    width: 200px;
+}
+
+.apod-analysis-heading {
+    /* width: 700px !important; */
+    margin-left: 200px
+}

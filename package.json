@@ -17,6 +17,7 @@
     "amortizejs": "^1.0.3",
     "bootstrap": "4",
     "core-js": "^2.5.4",
+    "irr-npv": "^1.0.1",
     "rxjs": "^5.5.8",
     "ts-loader": "3.5.0",
     "typescript": "^2.8.1",

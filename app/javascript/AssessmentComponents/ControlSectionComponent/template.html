@@ -1,0 +1,32 @@
+<article class="panel panel-default col-md-12" class="pull-left" id="apod-selection-section">
+    <section class="panel-body">
+        <div class="row">
+            <!-- <div class="col-md-4">
+                <select-field
+                    [formGroup]="apod_inputs"
+                    [controlName]="'apod_type'" 
+                    [controlLabel]="'Analysis Type'"
+                    [list]="apodTypes"
+                    [vals]="apodTypes"
+                    [val]="apodType"
+                    [default]="apodTypes[0]"
+                    (valueChanged)="selectApodType($event)"
+                    [persistable]=true>
+                </select-field>
+            </div> -->
+            <div class="col-md-4">
+                <select-field
+                    [formGroup]="apod_inputs"
+                    [controlName]="'apod_years'" 
+                    [controlLabel]="'Number of years'"
+                    [list]="apodYears"
+                    [vals]="apodYears"
+                    [val]="apodYears[0]"
+                    [default]="apodYears[0]"
+                    (valueChanged)="selectApodYears($event)"
+                    [persistable]=true>
+                </select-field>
+            </div>
+        </div>
+    </section>
+</article>

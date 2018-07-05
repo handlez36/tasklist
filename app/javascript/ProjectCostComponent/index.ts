@@ -19,14 +19,16 @@ export class PropertyCostFormComponent implements OnInit {
 
     private conditions: any;
     private condition_keys: any;
-    private estimated_repairs: any;
+    private estimated_repairs: any              = 0.0;
     private closing_cost: number                = 0.0;
     private closing_cost_perc: number           = 0;
     private pre_rent_holding_cost: number       = 0.0;
     private loan_point_cost: number             = 0.0;
-    private repair_paint_carpet: number = 0.0;
+    private repair_paint_carpet: number         = 0.0;
     private repair_house_condition: string;
     private calculation_dependencies: any;
+    private after_repair_value: any             = 0.0;
+    private totalClosingCost: any               = 0.0;
 
     constructor(
         @Inject(FormBuilder) private fb, 
@@ -51,7 +53,8 @@ export class PropertyCostFormComponent implements OnInit {
             pre_rent_holding_cost:      ['pre_rent_holding_months','monthly_rent'],
             paint_carpet_repair_cost:   ['repair_house_condition','property_size'],
             total_repair_cost:          ['repair_paint_carpet', 'repair_house_condition', 'repair_foundation', 'repair_roof','repair_ac'],
-            loan_point_cost:            ['loan_points','price','down_payment']
+            loan_point_cost:            ['loan_points','price','down_payment'],
+            after_repair_value:         ['price']
         }
     }
 
@@ -66,6 +69,8 @@ export class PropertyCostFormComponent implements OnInit {
                 this.updatePreRentHoldingCosts();
                 this.updateEstimatedRepairCost(false);
                 this.updateLoanPointCost();
+                this.updateARV();
+                this.updateTotalClosingCost();
             });
     }
 
@@ -171,5 +176,26 @@ export class PropertyCostFormComponent implements OnInit {
                 this.loan_point_cost = (points / 100) * (price - dp);
             }
         }
+    }
+
+    updateARV() {
+        console.log("ProjectCostComponent#updateARV");
+
+        if( this.calculation_dependencies['after_repair_value'].indexOf(this.mortgageDetails.keyChanged) != -1 ) {
+            this.after_repair_value = this.utilities.getFloatFor( this.mortgageDetails.price);
+        }
+    }
+
+    updateTotalClosingCost() {
+        console.log("ProjectCostComponent#updateTotalClosingCost");
+
+        let down_payment = this.utilities.getFloatFor( this.mortgageDetails.down_payment );
+
+        this.totalClosingCost = 
+            down_payment +
+            this.closing_cost +
+            this.pre_rent_holding_cost +
+            this.estimated_repairs +
+            this.loan_point_cost;
     }
 }

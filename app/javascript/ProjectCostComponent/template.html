@@ -1,6 +1,9 @@
 <article class="panel panel-default col-md-6" class="pull-left" id="cost-of-purchase-section" style="height:536px">
     <header class="panel-heading">
-        <h2>Cost of Purchase</h2>
+        <div class="row">
+            <div class="col-md-9"><h2>Cost of Purchase</h2></div>
+            <div class="col-md-3"><h3>{{ totalClosingCost }}</h3></div>
+        </div>
     </header>
     <section class="panel-body">
         <div [formGroup]="cost_of_purchase_form">
@@ -21,7 +24,6 @@
                         
                         [icon]="'%'" [disable]=false [placeholder]=0 [val]="closing_cost_perc">
                     </text-field>
-                    <!-- (valueChanged)="updateClosingCosts($event)" -->
                 </div>
             </div>
             <br />
@@ -56,6 +58,7 @@
                     </text-field>
                 </div>
             </div>
+            <br />
             <div class="row">
                 <div class="col-md-6">
                     <text-field
@@ -80,6 +83,7 @@
                     </select-field>
                 </div>
             </div>
+            <br />
             <div class="row">
                 <div class="col-md-4">
                     <text-field
@@ -109,13 +113,22 @@
                     </text-field>
                 </div>
             </div>
+            <br />
             <div class="row">
-                <div class="col-md-12">
+                <div class="col-md-6">
                     <text-field
                         [formGroup]="cost_of_purchase_form"
                         [controlName]="'loan_point_cost'" 
                         [controlLabel]="'Cost of loan points'"
                         [icon]="'$'" [disable]=true [placeholder]=0 [val]="loan_point_cost">
+                    </text-field>
+                </div>
+                <div class="col-md-6">
+                    <text-field
+                        [formGroup]="cost_of_purchase_form"
+                        [controlName]="'after_repair_value'" 
+                        [controlLabel]="'After Repair Value'"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="after_repair_value">
                     </text-field>
                 </div>
             </div>
