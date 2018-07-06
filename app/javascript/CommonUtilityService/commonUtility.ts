@@ -11,6 +11,12 @@ export class CommonUtilityService {
         return accounting.formatMoney(number).replace("$","");
     }
 
+    formatCommasToString(number) {
+        console.log("CommonUtilityService#formatCommasToString");
+
+        return Number(number).toLocaleString('en-GB')
+    }
+
     getFloatFor(value) {
         return (typeof value == "string" ?
             parseFloat( value.replace(",","") ) :

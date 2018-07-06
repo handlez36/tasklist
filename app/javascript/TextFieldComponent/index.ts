@@ -3,6 +3,7 @@ import { FormGroup, FormBuilder, FormControl } from '@angular/forms';
 import { OnInit, Component, Input, Inject, Output, EventEmitter, ChangeDetectorRef } from '@angular/core';
 import template from "./template.html";
 import { CommonUtilityService } from '../CommonUtilityService/commonUtility';
+import { CurrencyPipe } from '@angular/common';
 
 @Component({
     selector: 'text-field',
@@ -17,7 +18,8 @@ export class TextFieldComponent implements OnInit {
     @Input() placeholder;
     @Input() val;
     @Input() persist: boolean = true;
-    @Input() transform: boolean = true;
+    // @Input() transform: boolean = true;
+    @Input() transform: string = "currency";
 
     @Output() valueChanged: EventEmitter<any>;
     @Output() valManuallyChanged: EventEmitter<any>;
@@ -28,6 +30,7 @@ export class TextFieldComponent implements OnInit {
     private indirectChangeFields: any;
 
     constructor(
+        @Inject(CurrencyPipe) private myCurrencyPipe,
         @Inject(FormBuilder) private fb, 
         @Inject(CommonDataService) private commonData,
         @Inject(CommonUtilityService) private utilities,
@@ -39,7 +42,7 @@ export class TextFieldComponent implements OnInit {
         [
             "repair_paint_carpet", "closing_cost", "pre_rent_holding_cost",
             "loan_point_cost", "vacancy_rate_cost", "estimated_repair_cost",
-            "monthly_payment", "total_interest", "prop_info_price", "price",
+            "monthly_payment", "total_interest", "prop_info_price", //"price",
             "after_repair_value", "property_management"
         ]
     }
@@ -49,7 +52,7 @@ export class TextFieldComponent implements OnInit {
             control: [{value: this.val, disabled: this.disable}]
         })
 
-        this.control_value = parseFloat(this.val);
+        // this.control_value = parseFloat(this.val);
     }
 
     formControls() {
@@ -61,13 +64,23 @@ export class TextFieldComponent implements OnInit {
     }
 
     indirectUpdate() {
+        console.log("Indirect update:" + this.controlName + " = " + this.formControls().control );
         if ( ( this.indirectChangeFields.indexOf(this.controlName) != -1 )
              && !this.infocus )
         {
-            setTimeout( () => {
-                this.updateInputFormat(true);
-            }, 300 )
+            if (this.didValueChange()) {
+                setTimeout( () => {
+                    this.updateInputFormat(true);
+                }, 300 )
+            }
         }
+    }
+
+    didValueChange() {
+        let originalValue = this.utilities.getFloatFor( this.formControls().control );
+        let currentValue  = this.utilities.getFloatFor( this.val );
+
+        return originalValue != currentValue;
     }
 
     updateInputFormat(indirectUpdatedValue = false) {
@@ -85,15 +98,21 @@ export class TextFieldComponent implements OnInit {
             parseFloat(newVal) : 
             current_val;
 
-        if ( current_val != this.control_value ) {
-            this.control_value = parseFloat(("" + current_val).replace(",",""));
+        if ( current_val != this.utilities.getFloatFor(this.control_value) ) {
+            this.control_value = current_val;
 
-            if (this.transform) {
-                this.property_inputs.controls.control
-                    .setValue( this.utilities.formatCurrencyToString(this.control_value) );
+            if (this.transform != "none") {
+                let strVal = (this.transform == "currency") ?
+                    this.utilities.formatCurrencyToString(current_val) :
+                    this.utilities.formatCommasToString(current_val)
+
+                this.property_inputs.controls.control.setValue(strVal);
+
+                this.control_value = strVal;
             }
-                      
+
             if (this.persist) {
+                console.log("Is this an indirect update? " + indirectUpdatedValue)
                 this.updateCommonData();
             }
 

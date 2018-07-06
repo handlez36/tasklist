@@ -19,6 +19,7 @@ import * as amo from 'amortization';
 
 import { ProfileComponent } from '../ProfileComponent/index';
 import { TaskListComponent } from '../TaskListComponent/index';
+import { CurrencyPipe } from '@angular/common';
 
 var routing = [
     {
@@ -57,7 +58,7 @@ class AppComponent { }
     ReactiveFormsModule,
     RouterModule.forRoot(routing)
   ],
-  providers: [CommonDataService, CommonUtilityService],
+  providers: [CommonDataService, CommonUtilityService, CurrencyPipe],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

@@ -33,7 +33,8 @@ export class SelectFieldComponent implements OnInit {
 
     ngOnInit() {
         this.property_inputs = this.fb.group({
-            control: [this.default || this.vals[0]]
+            // control: [this.default || this.vals[0]]
+            control: [ this.vals[0] ]
         })
 
         this.control_value = typeof this.vals[0] == "string" ?

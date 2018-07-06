@@ -30,7 +30,7 @@
                         [formGroup]="property_inputs"
                         [controlName]="'property_size'" 
                         [controlLabel]="'Property Size'"
-                        [transform]=false
+                        [transform]="comma"
                         [icon]="'sq ft'" [disable]=false [placeholder]=0 [val]="size">
                     </text-field>
                 </div>
@@ -43,6 +43,7 @@
                         [controlLabel]="'Month of purchase'"
                         [list]="month_names"
                         [vals]="month_vals"
+                        [val]="month_vals[0]"
                         [persistable]=true>
                     </select-field>
                 </div>
@@ -53,6 +54,7 @@
                         [controlLabel]="'Year of purchase'"
                         [list]="years"
                         [vals]="years"
+                        [val]="years[0]"
                         [persistable]=true>
                     </select-field>
                 </div>

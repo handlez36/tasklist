@@ -68,8 +68,6 @@ export class APODComponent implements OnInit {
     ) 
     {
         this.finance = new Finance();
-
-        console.log( "TEST: ", Engine.irr([-18000,8561.88,8561.88]) );
     }
 
     ngOnInit() {
@@ -178,14 +176,8 @@ export class APODComponent implements OnInit {
             ratio >= 2 ? "Pass" : "Fail";
     }
 
-    changeApodType(newType) {
-        console.log("PointInTimeAssessments#changeApodType");
-        console.log("Type is: ", newType);
-    }
-
     changeApodYears(year) {
         console.log("PointInTimeAssessments#changeApodYears");
-        console.log("Type is: ", year);
 
         if( year >= 0 || year <= 30 ) {
             this.analysis_years = year;

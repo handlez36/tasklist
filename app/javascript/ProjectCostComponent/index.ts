@@ -114,11 +114,11 @@ export class PropertyCostFormComponent implements OnInit {
         if( this.calculation_dependencies['pre_rent_holding_cost'].indexOf(this.mortgageDetails.keyChanged) != -1 ) {
         }
 
-        let monthly_rent        = this.utilities.getFloatFor(this.mortgageDetails.monthly_rent);
+        let monthly_mortgage    = this.utilities.getFloatFor(this.mortgageDetails.monthly_payment);
         let holding_months      = this.utilities.getIntFor(this.mortgageDetails.pre_rent_holding_months);
 
-        if (monthly_rent && holding_months) {
-            this.pre_rent_holding_cost = monthly_rent * holding_months;
+        if (monthly_mortgage && holding_months) {
+            this.pre_rent_holding_cost = monthly_mortgage * holding_months;
         }
     }
 

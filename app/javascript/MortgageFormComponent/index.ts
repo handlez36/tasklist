@@ -46,18 +46,17 @@ export class MortgageFormComponent implements OnInit {
             .subscribe( data => {
                 this.mortgageDetails = data;
 
-                this.updatePrice();
                 this.updateMortgage();
             });
     }
 
-    updatePrice() {
-        if( this.calculation_dependencies['price'].indexOf(this.mortgageDetails.keyChanged) != -1 ) {
-            if (this.price != this.utilities.getFloatFor(this.mortgageDetails.prop_info_price)) {
-                this.price = this.utilities.getFloatFor(this.mortgageDetails.prop_info_price);
-            }
-        }
-    }
+    // updatePrice() {
+    //     if( this.calculation_dependencies['price'].indexOf(this.mortgageDetails.keyChanged) != -1 ) {
+    //         if (this.price != this.utilities.getFloatFor(this.mortgageDetails.prop_info_price)) {
+    //             this.price = this.utilities.getFloatFor(this.mortgageDetails.prop_info_price);
+    //         }
+    //     }
+    // }
 
     updateMortgage() {
         console.log("MortgageFormComponent#updateMortgage");
