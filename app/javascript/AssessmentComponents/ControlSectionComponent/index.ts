@@ -7,21 +7,24 @@ import template from './template.html';
     template: template
 })
 export class ControlSegmentComponent implements OnInit {
-    @Output('type') apodTypeChanged: EventEmitter<any>;
+    @Output('incomeIncrease') apodIncomeIncreaseChanged: EventEmitter<any>;
+    @Output('expenseIncrease') apodExpenseIncreaseChanged: EventEmitter<any>;
     @Output('years') apodYearsChanged: EventEmitter<any>;
     
     private apod_inputs:      any;
     
-    private apodType:       any = 'Point in Time';
-    private apodTypes:      any = ['Point in Time',  'Over Time']
-    private apodNumYears:   any = 1;
-    private apodYears:      any = [];
+    private apodType:           any = 'Point in Time';
+    private apodTypes:          any = ['Point in Time',  'Over Time']
+    private apodNumYears:       any = 1;
+    private apodYears:          any = [];
+    private showIncreaseFields: any;
     
     constructor(@Inject(FormBuilder) private fb) {
         console.log("ControlSegmentComponent#constructor");
 
-        this.apodTypeChanged    = new EventEmitter<any>();
-        this.apodYearsChanged   = new EventEmitter<any>();
+        this.apodIncomeIncreaseChanged     = new EventEmitter<any>();
+        this.apodExpenseIncreaseChanged    = new EventEmitter<any>();
+        this.apodYearsChanged              = new EventEmitter<any>();
     }    
 
     ngOnInit() {
@@ -30,14 +33,21 @@ export class ControlSegmentComponent implements OnInit {
         for(let i=0; i<30; i++) { this.apodYears.push(i+1) }
     }
 
-    selectApodType(newType) {
-        console.log("ControlSectionComponent#selectApodType");
-        this.apodTypeChanged.emit(newType);
+    selectExpenseIncreate(newType) {
+        console.log("ControlSectionComponent#selectExpenseIncreate");
+        this.apodExpenseIncreaseChanged.emit(newType);
+    }
+
+    selectIncomeIncreate(newType) {
+        console.log("ControlSectionComponent#selectIncomeIncreate");
+        this.apodIncomeIncreaseChanged.emit(newType);
     }
 
     selectApodYears(chosenYear) {
         console.log("ControlSectionComponent#selectApodYears");
         this.apodYearsChanged.emit(chosenYear);
+
+        this.showIncreaseFields = (chosenYear > 1) ? true : false
     }
 
 }

@@ -1,20 +1,7 @@
-<article class="panel panel-default col-md-12" class="pull-left" id="apod-selection-section">
+<!-- <article class="panel panel-default col-md-12" class="pull-left" id="apod-selection-section"> -->
     <section class="panel-body">
         <div class="row">
-            <!-- <div class="col-md-4">
-                <select-field
-                    [formGroup]="apod_inputs"
-                    [controlName]="'apod_type'" 
-                    [controlLabel]="'Analysis Type'"
-                    [list]="apodTypes"
-                    [vals]="apodTypes"
-                    [val]="apodType"
-                    [default]="apodTypes[0]"
-                    (valueChanged)="selectApodType($event)"
-                    [persistable]=true>
-                </select-field>
-            </div> -->
-            <div class="col-md-4">
+            <div>
                 <select-field
                     [formGroup]="apod_inputs"
                     [controlName]="'apod_years'" 
@@ -28,5 +15,26 @@
                 </select-field>
             </div>
         </div>
+        <br />
+        <div class="row" id="apod-increase-section" *ngIf="showIncreaseFields">
+            <div class="col-md-6">
+                <text-field
+                    [formGroup]="apod_inputs"
+                    [controlName]="'income_increase_perc'" 
+                    [controlLabel]="'Annual Income Increase'"
+                    (valueChanged)="selectIncomeIncreate($event)"
+                    [icon]="'%'" [disable]=false [placeholder]=0 [val]="0">
+                </text-field>
+            </div>
+            <div class="col-md-6">
+                <text-field
+                    [formGroup]="apod_inputs"
+                    [controlName]="'expense_increase_perc'" 
+                    [controlLabel]="'Annual Expense Increase'"
+                    (valueChanged)="selectExpenseIncreate($event)"
+                    [icon]="'%'" [disable]=false [placeholder]=0 [val]="0">
+                </text-field>
+            </div>
+        </div>        
     </section>
-</article>
+<!-- </article> -->

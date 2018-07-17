@@ -27,6 +27,7 @@ export class MortgageFormComponent implements OnInit {
     private calculation_dependencies =
     {
         price:          ['prop_info_price'],
+        down_payment:   ['down_payment_perc'],
         mortgage:       ['price', 'down_payment', 'mortgage_term', 'interest_rate', 'loan_points']
     }
 
@@ -46,6 +47,7 @@ export class MortgageFormComponent implements OnInit {
             .subscribe( data => {
                 this.mortgageDetails = data;
 
+                this.updateDownpayment();
                 this.updateMortgage();
             });
     }
@@ -57,6 +59,17 @@ export class MortgageFormComponent implements OnInit {
     //         }
     //     }
     // }
+
+    updateDownpayment() {
+        console.log("MortgageFormComponent#updateDownpayment");
+
+        if( this.calculation_dependencies['down_payment'].indexOf(this.mortgageDetails.keyChanged) != -1 ) {
+            let price                   = this.utilities.getFloatFor(this.mortgageDetails.price);
+            let percentage              = this.utilities.getFloatFor(this.mortgageDetails.down_payment_perc);
+    
+            this.dp = price * (percentage / 100);
+        }
+    }
 
     updateMortgage() {
         console.log("MortgageFormComponent#updateMortgage");

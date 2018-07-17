@@ -40,7 +40,7 @@
 }
 
 #mortgage-section {
-    height: 325px;
+    /* height: 325px; */
 }
 
 .small-input {
@@ -64,4 +64,9 @@
 .apod-analysis-heading {
     /* width: 700px !important; */
     margin-left: 200px
+}
+
+#apod-increase-section {
+    max-width: 300px; 
+    margin-left: -30px
 }

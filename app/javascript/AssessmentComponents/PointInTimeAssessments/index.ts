@@ -32,6 +32,8 @@ export class APODComponent implements OnInit {
     private yearlyOther:                any = [];
     private yearlyPropInsurance:        any = [];
     private yearlyPropTaxes:            any = [];
+    // private yearlyExpenseIncrease:      any = [];
+    // private yearlyIncomeIncrease:       any = [];
     private totalOperatingExpenses:     any = [];
     private annualDebtService:          any = [];
 
@@ -81,6 +83,8 @@ export class APODComponent implements OnInit {
     }
 
     updateAllCalculations() {
+        console.log("APODComponent#updateAllCalculations");
+
         this.resetValues();
 
         for(let i=0; i < this.analysis_years; i++) {                    
@@ -120,7 +124,9 @@ export class APODComponent implements OnInit {
     }
 
     updateVacancyExpense(year) {
-        this.vacancyRateCost[year] = this.utilities.getFloatFor(this.mortgageDetails.vacancy_rate_cost);
+        let vacancy_perc        = this.utilities.getFloatFor(this.mortgageDetails.vacancy_rate_perc);
+
+        this.vacancyRateCost[year] = this.grossScheduledIncome[year] * (vacancy_perc / 100);
     }
 
     updateGrossOperatingIncome(year) {
@@ -185,12 +191,26 @@ export class APODComponent implements OnInit {
         }
     }
 
+    changeIncomeIncrease(percentage) {
+        console.log("PointInTimeAssessments#changeIncomeIncrease");
+
+        this.annualIncomeIncrease = this.utilities.getFloatFor(percentage) / 100;
+        this.updateAllCalculations();
+    }
+
+    changeExpenseIncrease(percentage) {
+        console.log("PointInTimeAssessments#changeExpenseIncrease");
+
+        this.annualExpenseIncrease = this.utilities.getFloatFor(percentage) / 100;
+        this.updateAllCalculations();
+    }
+
     updateSellPrice(year) {
-        let originalPrice   = this.mortgageDetails.after_repair_value;
+        let originalPrice   = this.utilities.getFloatFor(this.mortgageDetails.after_repair_value);
         let rate            = 0.03; 
 
         this.sellingPrice[year] = 
-            this.calculateFutureValue(originalPrice, year - 1, rate) ||
+            this.calculateFutureValue(originalPrice, year, rate) ||
             0.0;
     }
 
@@ -204,7 +224,7 @@ export class APODComponent implements OnInit {
 
     updateAfterSaleProceeds(year) {
         this.afterSaleProceeds[year] = 
-            (this.sellingPrice[year] - this.estimatedCostOfSale[year] - this.mortgagePayoff[year]) || 
+            (this.sellingPrice[year] + this.cashFlowBeforeTaxes[year] - this.estimatedCostOfSale[year] - this.mortgagePayoff[year]) || 
             0.00;
     }
 
@@ -245,7 +265,7 @@ export class APODComponent implements OnInit {
                 temp_arr.push(cashFlow);
                 initialInvestment = this.finance.NPV(cashFlowCount, initialInvestment, ...temp_arr);
             } else {
-                let fv = this.calculateFutureValue(cashFlow, cashFlowCount-(index+1), this.reinvestRate);
+                let fv = this.calculateFutureValue(cashFlow, cashFlowCount-(index+2), this.reinvestRate);
                 
                 positiveCashFlows.push(fv);
             }
@@ -265,6 +285,7 @@ export class APODComponent implements OnInit {
         }
         
         finalTotal.unshift(initialInvestment);
+        console.log("Final Total: ", finalTotal);
         return finalTotal.length > 0 ?
             Engine.irr(finalTotal) :
             0;
@@ -282,7 +303,7 @@ export class APODComponent implements OnInit {
     }
 
     calculateFutureValue(starting_amt, years, rate_of_increase) {
-        return starting_amt * (1 + rate_of_increase) ** (years + 1)
+        return starting_amt * (1 + rate_of_increase) ** (years)
     }
 
     calculateAnnualDebtService(year) {
@@ -346,7 +367,7 @@ export class APODComponent implements OnInit {
             this.calculateFutureValue(
                 this.utilities.getFloatFor(this.mortgageDetails.other), year, this.annualExpenseIncrease) * months_remaining);
 
-        return this.yearlyRepairBudget[year]
+        let total = this.yearlyRepairBudget[year]
             + this.yearlyCapExBudget[year]
             + this.yearlyWater[year]
             + this.yearlyGarbage[year]
@@ -358,6 +379,8 @@ export class APODComponent implements OnInit {
             + this.yearlyPropTaxes[year]
             + this.yearlyPropInsurance[year]
             + this.yearlyOther[year];
+
+        return total;
     }
 
     hasOperatingExpenseFor(expense) {

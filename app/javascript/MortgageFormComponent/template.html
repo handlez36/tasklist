@@ -24,15 +24,34 @@
             </div>
             <br />
             <div class="row">
-                <div class="col-md-4">
+                <div class="col-md-6">
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'down_payment_perc'" 
+                        [controlLabel]="'Down Payment %'"
+                        [icon]="'%'" [disable]=false [placeholder]=0 [val]="dp_perc">
+                    </text-field>                    
+                </div>
+                <div class="col-md-6">
+                    <text-field
+                        [formGroup]="property_inputs"
+                        [controlName]="'down_payment'" 
+                        [controlLabel]="'Down Payment'"
+                        [icon]="'$'" [disable]=false [placeholder]=0 [val]="dp">
+                    </text-field>                    
+                </div>
+            </div>
+            <br />
+            <div class="row">
+                <!-- <div class="col-md-4">
                     <text-field
                         [formGroup]="property_inputs"
                         [controlName]="'down_payment'" 
                         [controlLabel]="'Down Payment'"
                         [icon]="'$'" [disable]=false [placeholder]=0 [val]="dp">
                     </text-field>
-                </div>
-                <div class="col-md-3">
+                </div> -->
+                <div class="col-md-4">
                     <text-field
                         [formGroup]="property_inputs"
                         [controlName]="'mortgage_term'" 
@@ -41,7 +60,7 @@
                         [disable]=false [placeholder]=0 [val]="term">
                     </text-field>   
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <text-field
                         [formGroup]="property_inputs"
                         [controlName]="'interest_rate'" 
@@ -49,7 +68,7 @@
                         [icon]="'%'" [disable]=false [placeholder]=0 [val]="rate">
                     </text-field>
                 </div>
-                <div class="col-md-2">
+                <div class="col-md-4">
                     <text-field
                         [formGroup]="property_inputs"
                         [controlName]="'loan_points'" 

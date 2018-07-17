@@ -64,7 +64,7 @@ export class TextFieldComponent implements OnInit {
     }
 
     indirectUpdate() {
-        console.log("Indirect update:" + this.controlName + " = " + this.formControls().control );
+        // console.log("Indirect update:" + this.controlName + " = " + this.formControls().control );
         if ( ( this.indirectChangeFields.indexOf(this.controlName) != -1 )
              && !this.infocus )
         {
@@ -112,7 +112,7 @@ export class TextFieldComponent implements OnInit {
             }
 
             if (this.persist) {
-                console.log("Is this an indirect update? " + indirectUpdatedValue)
+                // console.log("Is this an indirect update? " + indirectUpdatedValue)
                 this.updateCommonData();
             }
 
